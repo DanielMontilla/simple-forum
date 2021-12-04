@@ -1,14 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from './App';
 
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 
-ReactDOM.render(
+/**
+ * @tutorial {router} https://reactrouter.com/docs/en/v6/getting-started/tutorial
+ */
+render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route path="account" />
+          <Route path="post" />
+          <Route path="*" />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

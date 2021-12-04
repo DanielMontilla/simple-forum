@@ -1,0 +1,27 @@
+.sidebar {
+   @apply flex flex-col bg-primary fixed p-2
+          w-2/5 h-screen
+}
+
+.tgl-btn {
+   @apply fixed h-8 w-8 bg-primary right-3 bottom-3 rounded-full
+          filter drop-shadow-sm
+          flex justify-center items-center
+}
+
+.tgl-icon {
+   @apply text-background fill-current w-4 h-4
+}
+
+.item {
+   @apply align-middle h-7 mt-2
+}
+
+.icon {
+   @apply inline-block float-left h-full w-auto
+}
+
+.tag {
+   @apply text-alternate text-xl font-medium inline-block leading-none
+          align-text-top h-full ml-2
+}
