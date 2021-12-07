@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from './App';
+import Feed from './pages/feed';
 
 import reportWebVitals from './reportWebVitals';
 import './index.css';
@@ -15,6 +16,7 @@ render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
+          <Route path="feed" element={<Feed/>}/>
           <Route path="account" />
           <Route path="post" />
           <Route path="*" />

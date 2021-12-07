@@ -1,9 +1,10 @@
 import React from "react";
+import { Outlet, Link } from "react-router-dom";
 import './sidebar.style.css';
 import { IconType } from "react-icons";
 
 // ICONS
-import { BiGridAlt, BiBandAid, BiArrowFromRight } from 'react-icons/bi';
+import { BiGridAlt, BiBandAid, BiArrowFromLeft } from 'react-icons/bi';
 import { MdOutlinePostAdd } from 'react-icons/md';
 import { CgProfile } from 'react-icons/cg';
 
@@ -22,44 +23,46 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
 
       let { active } = this.state;
 
-      return <div className="sidebar">
-         {/* LOGO */}
+      return <>
+         <nav className={`sidebar ${ active ? 'sb-active' : 'sb-inactive' } `}>
+            {/* LOGO */}
 
 
-         {/* SEARCH FEATURE */}
+            {/* SEARCH FEATURE... maybe */}
 
-         {/* NAVIGATION */}
-         <ul>
-            <Item text="feed" Icon={ BiGridAlt }/>
-            <Item text="post" Icon={ MdOutlinePostAdd }/>
-            <Item text="profile" Icon={ CgProfile }/>
-         </ul>
-
-         {/* SETTINGS & MISC */}
+            {/* NAVIGATION */}
+            <ul>
+               <Item text="feed" Icon={ BiGridAlt } path="/feed"/>
+               <Item text="post" Icon={ MdOutlinePostAdd }/>
+               <Item text="profile" Icon={ CgProfile }/>
+            </ul>
+         </nav>
+            {/* SETTINGS & MISC */}
 
          {/* TOGGLE BUTTON */}
          <div className="tgl-btn" onClick={ () => { this.toggle() } }>
-            <BiArrowFromRight className="tgl-icon"/>
+            <BiArrowFromLeft className={`tgl-icon ${ active ? 'tgl-active' : 'tgl-inactive' } `}/>
          </div>
 
-      </div>
+      </>
    }
 
    public toggle() {
       let { active } = this.state;
       this.setState({ active: !active })
-
-      console.log(this.state.active)
    }
 };
 
-const Item: React.FC<{ text: string; Icon?: IconType }> = ({
+const Item: React.FC<{ text: string; Icon?: IconType; path?: string}> = ({
    text,
-   Icon = BiBandAid
+   Icon = BiBandAid,
+   path = '/'
 }) => (
-   <li className="item">
-      <Icon className="icon" />
-      <div className="tag"> {text} </div>
-   </li>
+   <Link to={ path }>
+      <li className="item">
+         <Icon className="icon" />
+         <div className="tag"> { text } </div>
+      </li>
+   </Link>
 );
 

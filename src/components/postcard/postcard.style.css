@@ -1,0 +1,4 @@
+.postcard {
+   @apply text-normal bg-alternate bg-opacity-50
+          rounded-sm p-1
+}

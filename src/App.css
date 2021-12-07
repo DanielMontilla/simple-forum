@@ -1,3 +1,7 @@
 .app {
    @apply m-0
 }
+
+.ctn {
+   @apply m-1 inset-0
+}

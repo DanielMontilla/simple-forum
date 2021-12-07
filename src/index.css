@@ -3,6 +3,5 @@
 @tailwind utilities;
 
 :root {
-  margin: 0;
-  @apply bg-background
+  @apply bg-background w-full h-full m-0;
 }
