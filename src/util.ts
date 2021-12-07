@@ -54,12 +54,15 @@ export const randDate = (minYear: number, maxYear: number): mDate => {
 export const dummyPost = (): PostData => {
 
    return {
-      post_id: randID(),
+      id: randID(),
       author_id: randID(),
       publish_date: randDate(2015, 2021),
       edit_date: randDate(2021, 2021),
    
-      title: 'Title',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam arcu odio, ornare vitae pretium sit amet, dictum sit amet ligula. Nunc nisi turpis, elementum at faucibus sed, varius quis libero. Mauris sit amet sollicitudin ex. Nulla consequat ex eget libero blandit ullamcorper quis id ligula. Suspendisse non odio sed massa euismod ultrices sed id eros. Suspendisse quis ante nec nulla tempor porttitor at malesuada lacus. Maecenas condimentum tempus odio, non egestas tellus fringilla et. Maecenas at nunc fringilla risus pretium porttitor. Vestibulum lacinia arcu vitae pharetra sagittis.'
+      title: 'Long drawn out Title',
+      content: "Sarah watched the whirlpool mesmerized. She couldn't take her eyes off the water swirling around and around.",
+      commentCount: randInt(0, 505),
+      likeCount: randInt(0, 1000),
+      dislikeCount: randInt(0, 1000)
    }
 }

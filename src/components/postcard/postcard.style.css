@@ -1,4 +1,63 @@
 .postcard {
-   @apply text-normal bg-alternate bg-opacity-50
-          rounded-sm p-1
+   display: grid;
+   grid-template-columns: 4fr 3fr 3fr;
+   row-gap: 0.05rem;
+
+   @apply bg-alternate bg-opacity-30
+          rounded-sm p-2 max-h-96 overflow-hidden;
+}
+
+.title {
+   @apply text-left text-primary text-2xl font-bold
+          col-span-3 inline-block
+}
+
+.author {
+   @apply text-left text-normal leading-normal font-semibold
+          col-span-3;
+}
+
+.cnt {
+   @apply col-span-3 leading-none text-sm text-regular font-normal
+          py-1 pb-2
+}
+
+.votes {
+   @apply col-span-1 flex justify-around items-center
+}
+
+.vote-icon {
+   @apply transform text-normal fill-current stroke-current h-full;
+}
+
+.vote-up { @apply rotate-0 }
+.vote-down { @apply rotate-180 }
+
+.vote-count {
+   @apply text-regular font-semibold text-sm
+}
+
+.comments {
+   grid-column: span 1 / span 2;
+   @apply flex justify-center space-x-1 items-center space-x-3
+}
+
+.comment-icon {
+   @apply h-full text-normal fill-current stroke-current
+}
+
+.comment-count {
+   @apply text-regular font-semibold text-sm
+}
+
+.age {
+   @apply flex justify-center items-center space-x-2
+}
+
+.age-icon {
+   @apply h-full text-normal fill-current stroke-current
+}
+
+.age-count {
+   @apply text-regular font-semibold text-sm
 }

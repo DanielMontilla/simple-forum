@@ -12,7 +12,7 @@ interface mDate {
 }
 
 interface PostData {
-   post_id: string
+   id: string
    author_id: string
    publish_date: mDate
    edit_date: mDate
@@ -20,4 +20,8 @@ interface PostData {
    title: string
    content: string
    media?: string
+
+   commentCount: number
+   likeCount: number
+   dislikeCount: number
 }

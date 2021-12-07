@@ -1,12 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import './index.css';
 
-import App from './App';
-import Feed from './pages/feed';
+import App from './pages/app';
+import Feed from './pages/feed/feed.page';
+import Post from './pages/post/post.page';
 
 import reportWebVitals from './reportWebVitals';
-import './index.css';
 
 /**
  * @tutorial {router} https://reactrouter.com/docs/en/v6/getting-started/tutorial
@@ -15,10 +16,10 @@ render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="feed" element={<Feed/>}/>
-          <Route path="account" />
-          <Route path="post" />
+        <Route path="/" element={ <App /> } >
+          <Route path="feed" element={ <Feed /> } />
+          <Route path="/post/:postId" element={ <Post /> } />
+          <Route path="account"/>
           <Route path="*" />
         </Route>
       </Routes>

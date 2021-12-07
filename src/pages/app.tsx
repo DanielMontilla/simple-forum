@@ -1,7 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import './App.css';
-import Sidebar from './components/sidebar/sidebar.component';
+import './app.css';
+
+import Sidebar from '../components/sidebar/sidebar.component';
 
 
 const App: React.FC = () => <div className="app">
