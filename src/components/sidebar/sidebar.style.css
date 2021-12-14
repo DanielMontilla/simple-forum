@@ -1,7 +1,7 @@
 .sidebar {
    @apply flex flex-col bg-primary fixed p-1
           transition-transform transform
-          w-32 h-screen inset-0 select-none z-10
+          w-48 h-screen inset-0 select-none z-10
 }
 
 .sb-active { @apply translate-x-0 }
@@ -22,14 +22,74 @@
 .tgl-inactive { @apply rotate-0 }
 
 .item {
-   @apply h-8 mb-2 p-1 bg-normal rounded-sm bg-opacity-0
+   @apply mb-2 p-1 bg-normal rounded-sm bg-opacity-0
 }
 
 .tag {
    @apply text-alternate text-xl font-medium inline-block
-          h-full ml-2 leading-none align-top
+          h-full ml-2 leading-none align-middle
 }
 
 .icon {
-   @apply inline-block float-left h-full w-auto
+   @apply inline-block float-left h-8 w-auto
+}
+
+.account-area {
+   display: grid;
+   grid-template-columns: 2.25rem;
+   grid-template-rows: 2rem 1.25rem;
+   @apply items-center bg-background bg-opacity-10
+          p-1 rounded-md content-center
+}
+
+.loading {
+   @apply bg-background bg-opacity-20 animate-pulse rounded-full;
+}
+
+.pic {
+   grid-row: span 2 / span 2;
+   grid-column: 1 / 1;
+   @apply w-9 h-9 rounded-full bg-regular
+          ring-2 ring-succ
+}
+
+.pic-loading {
+   @apply pic loading ring-regular ring-opacity-20
+}
+
+.username {
+   grid-row: 1 / 1;
+   grid-column: 2 / 2;
+   line-height: 0;
+   @apply text-left text-background font-bold text-xl ml-2 align-middle h-8
+}
+
+.username-loading {
+   @apply username;
+   @apply loading w-3/5 h-2/3
+}
+
+.user-links {
+   grid-row: 2 / 2;
+   grid-column: 2 / 2;
+   @apply flex flex-row justify-start content-center gap-2
+          text-sm leading-none text-left
+}
+
+.linktainer {
+   padding: .15rem;
+   @apply ml-2 pl-0
+}
+
+.linktainer-loading {
+   @apply linktainer loading;
+   @apply h-2/3 w-3/4
+}
+
+.user-link {
+   @apply inline font-medium
+}
+
+.user-icons {
+ @apply h-full m-0 inline
 }

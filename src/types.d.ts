@@ -25,3 +25,12 @@ interface PostData {
    likeCount: number
    dislikeCount: number
 }
+
+type Pic = 1 | 2 | 3 | 4 | 5
+
+interface myUser {
+   uid: string
+   username: string
+   verified: boolean
+   pic: Pic
+}

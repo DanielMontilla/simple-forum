@@ -5,6 +5,7 @@ import './index.css';
 
 import App from './pages/app';
 import Feed from './pages/feed/feed.page';
+import Login from './pages/login/login.page';
 import Post from './pages/post/post.page';
 
 import reportWebVitals from './reportWebVitals';
@@ -19,7 +20,9 @@ render(
         <Route path="/" element={ <App /> } >
           <Route path="feed" element={ <Feed /> } />
           <Route path="/post/:postId" element={ <Post /> } />
-          <Route path="account"/>
+          <Route path="account" />
+          <Route path="login" element={ <Login mode="login"/> }/>
+          <Route path="register" element={ <Login mode="register"/> }/>
           <Route path="*" />
         </Route>
       </Routes>

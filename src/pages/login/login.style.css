@@ -1,0 +1,48 @@
+.login-ctn {
+   @apply flex justify-center flex-col h-screen select-none items-center
+}
+
+.form-ctn {
+   display: grid;
+   grid-template-rows: 2fr 4fr 1fr 1.5fr;
+   @apply bg-normal bg-opacity-10 p-4 rounded-md mx-4 ring-2 ring-primary
+          h-80 w-72 justify-items-center place-items-center pb-2 pt-3
+}
+
+.mode-title {
+   @apply text-primary font-bold text-5xl row-span-1 leading-none
+}
+
+.submit-btn {
+   grid-row: 4 / 5;
+   @apply rounded-lg bg-secundary font-semibold px-2 py-1;
+}
+
+.inputs {
+   @apply min-w-max self-end mb-2
+}
+
+input {
+   @apply p-2 mt-2 rounded-md bg-regular bg-opacity-30 text-normal block w-44
+}
+
+.msg {
+   grid-row: 3 / .4;
+   @apply text-center font-semibold text-sm
+}
+
+.loading-icon {
+   @apply text-regular stroke-current animate-spin h-8 w-8
+}
+
+.switch-ctn {
+   @apply m-auto max-w-lg mt-2 row-span-4;
+}
+
+.switch-text {
+   @apply text-primary inline
+}
+
+.switch-btn {
+   @apply font-semibold text-secundary underline inline
+}
