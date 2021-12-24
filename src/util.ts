@@ -42,27 +42,3 @@ export const randID = (lenght: number = 10): string => {
 
    return val;
 }
-
-export const randDate = (minYear: number, maxYear: number): mDate => {
-   return {
-      day: randPick(days),
-      month: randPick(months),
-      year: randInt(minYear, maxYear)
-   }
-}
-
-export const dummyPost = (): PostData => {
-
-   return {
-      id: randID(),
-      author_id: randID(),
-      publish_date: randDate(2015, 2021),
-      edit_date: randDate(2021, 2021),
-   
-      title: 'Long drawn out Title',
-      content: "Sarah watched the whirlpool mesmerized. She couldn't take her eyes off the water swirling around and around.",
-      commentCount: randInt(0, 505),
-      likeCount: randInt(0, 1000),
-      dislikeCount: randInt(0, 1000)
-   }
-}

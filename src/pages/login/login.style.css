@@ -27,7 +27,7 @@ input {
 }
 
 .msg {
-   grid-row: 3 / .4;
+   grid-row: 3 / 4;
    @apply text-center font-semibold text-sm
 }
 
@@ -45,4 +45,8 @@ input {
 
 .switch-btn {
    @apply font-semibold text-secundary underline inline
+}
+
+.user-loading {
+   @apply h-3/4 w-3/4 text-regular animate-spin stroke-current
 }

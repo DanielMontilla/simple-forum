@@ -39,7 +39,7 @@
    grid-template-columns: 2.25rem;
    grid-template-rows: 2rem 1.25rem;
    @apply items-center bg-background bg-opacity-10
-          p-1 rounded-md content-center
+          p-1 rounded-md content-center pb-2
 }
 
 .loading {

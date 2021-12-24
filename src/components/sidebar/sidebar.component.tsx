@@ -12,7 +12,9 @@ import { AiFillEdit } from 'react-icons/ai';
 import { IoLogOut } from 'react-icons/io5';
 import { Auth } from "../../firebase.config";
 
-interface SidebarProps {}
+interface SidebarProps {
+   state: boolean
+}
 
 interface ItemProps {
    text: string;
@@ -21,10 +23,10 @@ interface ItemProps {
    path?: string;
 }
 
-const Sidebar: FC<SidebarProps> = () => {
+const Sidebar: FC<SidebarProps> = ({ state = false }) => {
    let user = useContext(UserState);
    let nav = useNavigate();
-   let [ active, setActive ] = useState<boolean>(true);
+   let [ active, setActive ] = useState<boolean>(state);
 
    let toggle = () => setActive(!active);
 
@@ -53,7 +55,7 @@ const Sidebar: FC<SidebarProps> = () => {
       default:
          acctElem = <>
             <div className="pic" />
-            <div className="username"> { user.username } </div>
+            <div className="username" onClick={ () => { nav('me'); toggle(); } }> { user.username } </div>
             <div className="user-links"> 
                <div className="linktainer">
                   <AiFillEdit className="user-icons"/>

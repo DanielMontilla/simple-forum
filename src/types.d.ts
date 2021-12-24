@@ -12,18 +12,22 @@ interface mDate {
 }
 
 interface PostData {
-   id: string
-   author_id: string
-   publish_date: mDate
-   edit_date: mDate
+   author: DocumentReference
+   publishDate: mDate
+   editDate: mDate
 
    title: string
    content: string
    media?: string
 
-   commentCount: number
-   likeCount: number
-   dislikeCount: number
+   comments: string[]
+   likes: number
+   dislikes: number
+}
+
+interface CommentData {
+   author: string,
+   content: string
 }
 
 type Pic = 1 | 2 | 3 | 4 | 5
@@ -33,4 +37,10 @@ interface myUser {
    username: string
    verified: boolean
    pic: Pic
+   bio?: string
 }
+
+type PostRef = DocumentReference<PostData>;
+type PostColRef = CollectionReference<PostData>;
+type UserRef = DocumentReference<myUser>;
+type UserColRef = CollectionReference<myUser>;

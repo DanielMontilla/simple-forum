@@ -1,0 +1,41 @@
+.user-ctn {
+   grid-template-rows: 6rem auto auto;
+   grid-template-columns: 100%;
+   @apply max-w-sm w-full min-w-min self-start
+          grid place-content-center
+}
+
+.user-header {
+   @apply flex items-center gap-1 w-full justify-start
+}
+
+.user-pic {
+   @apply ring-secundary ring-2 w-20 h-20 bg-normal bg-opacity-10
+          mx-2
+}
+
+.user-pic-loading {
+   @apply animate-pulse
+}
+
+.user-name {
+   @apply text-5xl text-primary font-bold;
+}
+
+.user-name-loading {
+   @apply animate-pulse rounded-sm bg-primary bg-opacity-20
+          h-11 w-40 transform translate-y-1
+}
+
+.user-bio {
+   @apply text-normal opacity-90 text-lg p-2
+}
+
+.user-bio-loading {
+   @apply flex flex-col gap-2 transform translate-y-2
+}
+
+.bio-loading-text {
+   @apply animate-pulse bg-normal bg-opacity-10 w-full h-5 rounded-full
+}
+

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import './app.css';
 
 // Components
@@ -11,11 +11,13 @@ import { doc, getDoc } from 'firebase/firestore';
 
 // Initialization // TODO: maybe move this code elsewhere
 const UserState = createContext<myUser | null | 'loading'>(null);
+// myUser: user is signed in
+// null: no user signed in
+// loading: fetching user status
 
 const App: React.FC = () => {
-   // let [ loading, setLoading ] = useState<boolean>(true); // TODO: add loading animations
-   let [ user, setUser ] = useState<myUser | null | 'loading'>('loading');
-
+   let [ user, setUser ] = useState<myUser | null | 'loading'>('loading'); // Global user state
+   
    useEffect(
       () => {
          let fetchUser = async (uid: string) => {
@@ -29,6 +31,7 @@ const App: React.FC = () => {
             (currentUser) => { 
                if (currentUser) {
                   fetchUser(currentUser.uid);
+                  Auth.updateCurrentUser(currentUser);
                } else {
                   setUser(null);
                }
@@ -39,7 +42,7 @@ const App: React.FC = () => {
    
    return <UserState.Provider value={ user }>
       <div className="app">
-         <Sidebar />
+         <Sidebar state={ false }/>
          <div className="ctn">
             <Outlet/>
          </div>
