@@ -2,7 +2,7 @@
    grid-template-rows: 6rem auto auto;
    grid-template-columns: 100%;
    @apply max-w-sm w-full min-w-min self-start
-          grid place-content-center
+          grid place-content-center select-none
 }
 
 .user-header {
@@ -18,8 +18,17 @@
    @apply animate-pulse
 }
 
+.user-name-area {
+   @apply flex items-center gap-3
+}
+
 .user-name {
-   @apply text-5xl text-primary font-bold;
+   @apply text-4xl text-primary font-bold bg-opacity-0 px-1 py-2 mt-0 outline-none
+}
+
+.user-name-edit-icon {
+   @apply w-6 h-6 text-regular fill-current stroke-current inline
+          transition-opacity lg:opacity-0 group-hover:opacity-80 opacity-50
 }
 
 .user-name-loading {
@@ -27,8 +36,16 @@
           h-11 w-40 transform translate-y-1
 }
 
+.user-bio-area {
+   @apply block px-2 pt-1
+}
+
 .user-bio {
-   @apply text-normal opacity-90 text-lg p-2
+   @apply text-normal text-opacity-90 text-lg outline-none leading-relaxed
+}
+
+.bio-edit-icon {
+   @apply user-name-edit-icon mb-1 ml-1
 }
 
 .user-bio-loading {
@@ -39,3 +56,41 @@
    @apply animate-pulse bg-normal bg-opacity-10 w-full h-5 rounded-full
 }
 
+.editing-status-area {
+   @apply flex justify-start gap-5 pl-3 pt-3
+}
+
+.status-btn {
+   @apply px-1 flex justify-between w-min gap-1 h-8
+          rounded-sm text-lg items-center text-center font-semibold
+          
+}
+
+.save-btn {
+   @apply bg-primary
+}
+
+.cancel-btn {
+   @apply bg-error bg-opacity-90
+}
+
+.status-icon {
+   @apply w-6 h-6 inline transform scale-125
+          text-background fill-current stroke-current
+}
+
+.cancel-icon {
+   @apply transform scale-90
+}
+
+.loading-icon {
+   @apply w-6 h-6 inline
+          text-background fill-current stroke-current animate-spin        
+}
+
+.status-msgs {
+   @apply p-2 absolute left-2 bottom-2
+}
+
+.status-msg {
+}

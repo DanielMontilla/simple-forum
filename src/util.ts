@@ -42,3 +42,25 @@ export const randID = (lenght: number = 10): string => {
 
    return val;
 }
+
+// Global validation stuff
+
+export const isUsernameValid = (s: string): [ res: boolean, msgs: string[] ] => {
+   let res = true;
+   let msgs = [];
+   if (s.length < 3) { res = false; msgs.push('username must be more than 3 characters')};
+   if (s.length > 10) { res = false; msgs.push('username must be less than 10 characters')};
+   /**
+    * @copyright https://stackoverflow.com/questions/23476532/check-if-string-contains-only-letters-in-javascript
+    */
+   if (!/^[a-z]+$/i.test(s)) { res = false; msgs.push('username must only contain letters')};
+   
+   return [res, msgs];
+}
+
+export const isBioValid = (s: string): [ res: boolean, msgs: string[] ] => {
+   let res = true;
+   let msgs = [];
+   if (s.length > 120) { res = false; msgs.push(`bio is ${s.length} characters. Must be less than 120`)};
+   return [res, msgs]
+}

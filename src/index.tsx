@@ -21,9 +21,9 @@ render(
         <Route path="/" element={ <App /> } >
           <Route path="feed" element={ <Feed /> } />
           <Route path="/post/:postId" element={ <Post /> } />
-          <Route path="me" element={ <User isMe={ true }/> }/>
-          <Route path="user" element={ <></> }>
-
+          <Route path="me" element={ <User /> }/>
+          <Route path="user">
+            <Route path=":userId" element={ <User /> }/>
           </Route>
           <Route path="login" element={ <Login mode="login"/> }/>
           <Route path="register" element={ <Login mode="register"/> }/>
