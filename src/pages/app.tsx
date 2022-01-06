@@ -8,6 +8,7 @@ import Sidebar from '../components/sidebar/sidebar.component';
 // Firebase
 import { Firestore as fs, Auth } from '../firebase.config';
 import { doc, getDoc } from 'firebase/firestore';
+import { myUser } from '../types';
 
 // Initialization // TODO: maybe move this code elsewhere
 const UserState = createContext<myUser | null | 'loading'>(null);

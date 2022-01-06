@@ -11,6 +11,8 @@ import { MdOutlineCancel } from 'react-icons/md';
 import './user.style.css'
 import { isBioValid, isUsernameValid } from "../../util";
 import ContentEditable from "react-contenteditable";
+import { fetchImgUrl } from "../../services/Storage";
+import { myUser, UserRef } from "../../types";
 
 interface UserPageProps {  }
 
@@ -23,7 +25,7 @@ const User: FC<UserPageProps> = () => {
    let [ canEdit, setCanEdit ] = useState<boolean>(false);
    let [ edited, setEdited ] = useState<boolean>(false);
    let [ updating, setUpdating ] = useState<boolean>(false);
-   let [ statusMsgs, setStatusMsgs ] = useState<string[]>(['click fields to edit ✏']);
+   let [ statusMsgs, setStatusMsgs ] = useState<string[]>([]);
    let [ statusState, setStatusState ] = useState<'error' | 'success' | 'hint'>('hint');
    let [ user, setUser ] = useState<myUser | null | 'not found'>(null);
 
@@ -32,12 +34,13 @@ const User: FC<UserPageProps> = () => {
 
    let [ username, setUsername ] = useState<string>('');
    let [ bio, setBio ] = useState<string>('');
-   let [ pic, setPic ] = useState<Pic>(1);
+   let [ pic, setPic ] = useState<string | null>(null);
 
    let setUserValues = (u: myUser) => {
       setUsername(u.username);
       setBio(u.bio || '');
-      setPic(u.pic);
+
+      fetchImgUrl(`pic_${u.pic}.png`).then( url => setPic(url) ); // TODO: error
    }
    
    // FOR FETCHING DATA AND SETTING CORRECT PERMISSION STATES
@@ -48,6 +51,7 @@ const User: FC<UserPageProps> = () => {
                if (userState) { // Logged in
                   setUser(userState);
                   setUserValues(userState);   // ! could introduce errors
+                  setStatusMsgs(['click fields to edit ✏']);
                   setCanEdit(true);
                } else if (userState === null) { // not Logged in
                   navigate(`/login`, { replace: true })
@@ -56,8 +60,6 @@ const User: FC<UserPageProps> = () => {
                let fetchUser = async (id: string) => {
                   let userRef = doc(fs, 'users', id) as UserRef;
                   let userDoc = await getDoc<myUser>(userRef);
-
-                  console.log(userDoc.data())
 
                   if (userDoc.exists()) {
                      setUser(userDoc.data());
@@ -69,10 +71,11 @@ const User: FC<UserPageProps> = () => {
                }
 
                if (userId) {
-                  if (userState?.uid === userId) { // Check whether userId path matches current user's uid
-                     console.log(`is you! ${userState}`)
+                  if (userState?.uid === userId) {
    
                      setUser(userState);
+                     setUserValues(userState);// ! could introduce errors
+                     setStatusMsgs(['click fields to edit ✏']); // TODO: abstract into own floating component
                      setCanEdit(true);
                   } else {
                      fetchUser(userId);
@@ -106,7 +109,7 @@ const User: FC<UserPageProps> = () => {
                setBio(value);
                break;
             case 'pic':
-               // setPic(value);
+               setPic(value);
                break;
          }
 
@@ -137,12 +140,13 @@ const User: FC<UserPageProps> = () => {
             await updateDoc<myUser>(userRef, {
                bio: bio,
                username: username,
-               pic: pic
+               pic: 1
             });
 
          } else {
             console.error(`NO USER`)
          }
+
          setStatusState('success');
          setStatusMsgs(['Account updated succesfully'])
          setUpdating(false);
@@ -163,13 +167,13 @@ const User: FC<UserPageProps> = () => {
 
       return <form className="user-ctn" onSubmit={ e => { e.preventDefault() } }>
          <div className="user-header">
-            <div className={`user-pic`}>
-
-            </div>
+            {
+               pic ? <img className="user-pic" src={pic} alt={'idk'} decoding="auto"/> : <div className="user-pic-loading"/>
+            }
             <div className={`user-name-area group`} onClick={ () => { focusEditUsername() } }>
-               <input className={`user-name`} 
-                  value={username} onChange={ e => setField(e.target.value, 'username') }
-                  readOnly={!canEdit} type="text" ref={usernameInput}
+               <ContentEditable className={`user-name`} 
+                  html={username} onChange={ e => setField(e.target.value, 'username') }
+                  disabled={!canEdit} innerRef={ usernameInput } tagName="span"
                   />
                {
                   canEdit ? <AiFillEdit className={`user-name-edit-icon`}/> : <></>
@@ -179,7 +183,7 @@ const User: FC<UserPageProps> = () => {
          <div className={`user-bio-area group`} onClick={ () => { focusEditBio() } }>
             <ContentEditable className={`user-bio`}
                onChange={ e => setField(e.target.value, 'bio')} tagName="span"
-               html={ bio } disabled={!canEdit} innerRef={bioInput}
+               html={ bio } disabled={!canEdit} innerRef={ bioInput }
                />
             {
                canEdit ? <AiFillEdit className={`bio-edit-icon`}/> : <></>
@@ -218,7 +222,7 @@ const User: FC<UserPageProps> = () => {
    } else { // Still fetching user (loading!)
       return <div className="user-ctn">
          <div className="user-header">
-            <div className={`user-pic user-pic-loading`}/>
+            <div className={`user-pic-loading`}/>
             <div className={`user-name user-name-loading`}/>
          </div>
          <div className={`user-bio`}>

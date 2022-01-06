@@ -1,7 +1,7 @@
 .user-ctn {
    grid-template-rows: 6rem auto auto;
    grid-template-columns: 100%;
-   @apply max-w-sm w-full min-w-min self-start
+   @apply max-w-xl w-full min-w-min self-start
           grid place-content-center select-none
 }
 
@@ -15,7 +15,7 @@
 }
 
 .user-pic-loading {
-   @apply animate-pulse
+   @apply user-pic animate-pulse
 }
 
 .user-name-area {
@@ -23,7 +23,7 @@
 }
 
 .user-name {
-   @apply text-4xl text-primary font-bold bg-opacity-0 px-1 py-2 mt-0 outline-none
+   @apply text-4xl text-primary font-bold bg-opacity-0 px-1 py-2 mt-0 outline-none break-all
 }
 
 .user-name-edit-icon {
@@ -41,7 +41,7 @@
 }
 
 .user-bio {
-   @apply text-normal text-opacity-90 text-lg outline-none leading-relaxed
+   @apply text-normal text-opacity-90 text-lg outline-none leading-relaxed break-all
 }
 
 .bio-edit-icon {

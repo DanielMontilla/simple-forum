@@ -5,7 +5,7 @@ import './feed.style.css'
 import { collection, orderBy, query, getDocs, limit } from "firebase/firestore";
 import { Firestore as fs } from "../../firebase.config";
 import { useEffect, useState } from "react";
-import { randID } from "../../util";
+import { PostRef, PostColRef, PostData } from "../../types";
 
 const Feed: React.FC = () => {
    let [ posts, setPosts ] = useState<Array<PostRef | undefined>>(new Array(30).fill(undefined));
@@ -13,7 +13,7 @@ const Feed: React.FC = () => {
    useEffect(
       () => {
          let fetchMore = () => {
-            // fetching next batch of posts
+            // TODO: fetching next batch of posts
          };
          let fetchInit = async () => {
             // Fetching newest posts
@@ -35,7 +35,7 @@ const Feed: React.FC = () => {
 
    return <main>
       {
-         posts.map( post => <PostCard postRef={ post } key={ randID(5) }/>)
+         posts.map( (post, i) => <PostCard postRef={ post } key={ i }/>)
       }
    </main>
 

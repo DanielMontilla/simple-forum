@@ -10,6 +10,7 @@ import { FirebaseError } from "firebase/app";
 import { CgSpinner } from 'react-icons/cg';
 import { useNavigate } from "react-router-dom";
 import { UserState } from "../app";
+import { fetchImgUrl } from "../../services/Storage";
 
 type Mode = 'login' | 'register'
 interface LoginProps { mode?: Mode };

@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 // Firebase stuff
-import { getDoc } from 'firebase/firestore'
+import { PostRef, PostData, myUser } from '../../types';
+import { fetchDoc } from '../../services/Firestore';
 
 interface PostCardProps { postRef?: PostRef }
 
@@ -17,29 +18,28 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
 
    useEffect(
       () => {
-         let fetchPost = async () => {
-            let postDoc = await getDoc<PostData>(postRef);
-            let postData = postDoc.data();
-      
-            if (postData) {
+
+         let fetch = async (ref: PostRef) => {
+            try {
+               let postData = await fetchDoc<PostData>('posts', ref);
+               let authorData = await fetchDoc<myUser>('users', postData.author);
                setPost(postData);
-               let authorDoc = await getDoc<myUser>(postData.author);
-               let authorData = authorDoc.data();
-               if (authorData) setAuthor(authorData);
-            };
-         };
-         if (postRef) fetchPost();
+               setAuthor(authorData);
+            } catch (e) { console.error(e) } // TODO: better error handeling
+         }
+         if (postRef) fetch(postRef);
       }, [postRef]
    );
 
-   if (post && author) {
-      let { title, content, likes, dislikes, comments } = post;
+   if (post && author && postRef) {
+      let { title, content, likes, dislikes, commentCount } = post;
+      let path = postRef.id;
       let age = '15h';
 
       return <div className="postcard">
          <div className="head">
             <div className="title"> 
-               <Link to={`/post/${title}`} key={ title } >
+               <Link to={`/post/${path}`} key={ title } >
                   { title }
                </Link>
             </div>
@@ -54,7 +54,7 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
             </div>
             <div className="comments">
                <FaCommentAlt className="comment-icon"/>
-               <div className="comment-count"> { comments.length } </div>
+               <div className="comment-count"> { commentCount } </div>
             </div>
             <div className="age">
                <AiFillClockCircle className="age-icon"/>
@@ -63,9 +63,7 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
          </div>
       </div>
    } else {
-      return <div className="postcard-load">
-
-      </div>
+      return <div className="postcard-load"/>
    }
 
 }

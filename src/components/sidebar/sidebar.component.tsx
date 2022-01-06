@@ -1,4 +1,4 @@
-import {  FC, useContext, useState } from "react";
+import {  FC, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './sidebar.style.css';
 import { IconType } from "react-icons";
@@ -11,6 +11,8 @@ import { CgProfile } from 'react-icons/cg';
 import { AiFillEdit } from 'react-icons/ai';
 import { IoLogOut } from 'react-icons/io5';
 import { Auth } from "../../firebase.config";
+import { fetchImgUrl } from "../../services/Storage";
+import { Pic } from "../../types";
 
 interface SidebarProps {
    state: boolean
@@ -27,15 +29,34 @@ const Sidebar: FC<SidebarProps> = ({ state = false }) => {
    let user = useContext(UserState);
    let nav = useNavigate();
    let [ active, setActive ] = useState<boolean>(state);
+   let [ pic, setPic ] = useState<string | null>(null);
 
    let toggle = () => setActive(!active);
+
+   useEffect(
+      () => {
+         let fetchPic = async (n: Pic) => {
+            let url = await fetchImgUrl(`pic_${n}.png`);
+            setPic(url);
+         }
+
+         if (user && user !== 'loading') {
+            fetchPic(user.pic);
+         } else if (!user) {
+            fetchPic(0);
+         }
+
+      }, [user]
+   )
 
    let acctElem: JSX.Element;
 
    switch (user) {
       case null:
          acctElem = <>
-            <div className="pic" />
+            {
+               pic ? <img className="pic" src={pic} alt="idk"/> : <div className="pic-loading"/>
+            }
             <div className="username"> anonymous </div>
             <div className="linktainer">
                <IoLogOut className="user-icons"/>
@@ -54,7 +75,9 @@ const Sidebar: FC<SidebarProps> = ({ state = false }) => {
 
       default:
          acctElem = <>
-            <div className="pic" />
+            {
+               pic ? <img className="pic" src={pic} alt="idk"/> : <div className="pic-loading"/>
+            }
             <div className="username" onClick={ () => { nav('me'); toggle(); } }> { user.username } </div>
             <div className="user-links"> 
                <div className="linktainer">
