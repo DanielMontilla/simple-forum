@@ -1,0 +1,28 @@
+.cpost-ctn {
+   @apply flex p-1 flex-col
+          max-w-xl w-full self-start
+}
+
+.cpost-title {
+   @apply text-primary font-semibold text-2xl outline-none border-b-2 border-secundary break-all
+          bg-normal bg-opacity-10 rounded-b-sm p-1;
+}
+
+.cpost-title:empty:before {
+   content: attr(placeholder);
+   @apply text-opacity-50 text-primary italic;
+}
+
+.cpost-content {
+   @apply text-normal break-all outline-none mt-2
+          bg-normal bg-opacity-10 rounded-sm p-1
+}
+
+.cpost-content:empty:before {
+   content: attr(placeholder);
+   @apply text-opacity-50 text-normal italic;
+}
+
+.cpost-submit-btn {
+   @apply place-self-start p-3
+}

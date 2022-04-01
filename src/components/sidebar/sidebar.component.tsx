@@ -103,7 +103,7 @@ const Sidebar: FC<SidebarProps> = ({ state = false }) => {
          {/* NAVIGATION */}
          <ul>
             <Item text="feed" icon={ BiGridAlt } path="/feed" onClick={ toggle } />
-            <Item text="post" icon={ MdOutlinePostAdd } onClick={ toggle } />
+            <Item text="post" icon={ MdOutlinePostAdd } path="/new-post" onClick={ toggle } />
             <Item text="profile" icon={ CgProfile } onClick={ toggle } />
          </ul>
       </nav>

@@ -1,5 +1,5 @@
 .postcard {
-   @apply p-2 pt-1 max-w-xs h-36 w-full
+   @apply p-2 pt-1 max-w-xs h-40 w-full
           flex flex-col flex-shrink-0 content-start
           bg-alternate bg-opacity-30 rounded-sm overflow-hidden;
 }
@@ -23,8 +23,10 @@
    @apply text-left text-normal leading-none font-semibold;
 }
 
-.cnt {
-   @apply col-span-3 leading-none text-sm text-regular font-normal
+.post-preview-context {
+   @apply col-span-3 leading-none text-sm text-regular font-normal overflow-hidden
+          h-full;
+   -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
 }
 
 .actions {
@@ -36,7 +38,7 @@
 }
 
 .vote-icon {
-   @apply transform text-normal fill-current stroke-current;
+   @apply transform fill-current stroke-current;
 }
 
 .vote-up { @apply rotate-0 }

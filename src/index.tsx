@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 
 import App from './pages/app';
+import CreatePost from './pages/createPost/createPost.page';
 import Feed from './pages/feed/feed.page';
 import Login from './pages/login/login.page';
 import Post from './pages/post/post.page';
@@ -27,6 +28,7 @@ render(
           </Route>
           <Route path="login" element={ <Login mode="login"/> }/>
           <Route path="register" element={ <Login mode="register"/> }/>
+          <Route path="new-post" element={ <CreatePost/> }/>
           <Route path="*" />
         </Route>
       </Routes>

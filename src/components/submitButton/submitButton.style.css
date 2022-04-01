@@ -1,0 +1,20 @@
+.submit-btn-ctn {
+   @apply rounded-sm px-1 bg-primary w-min h-8 select-none
+          flex justify-center items-center justify-items-center gap-1
+}
+
+.submit-btn-label {
+   @apply font-bold align-middle
+}
+
+.submit-btn-icon-ctn {
+   @apply w-6 h-full text-alternate
+}
+
+.submit-btn-icon-loading {
+   @apply submit-btn-icon-ctn animate-spin fill-current
+}
+
+.submit-btn-icon-not-loading {
+   @apply submit-btn-icon-ctn fill-current
+}

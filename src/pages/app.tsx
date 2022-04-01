@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router';
+import { Outlet, Navigate } from 'react-router';
 import './app.css';
 
 // Components
@@ -28,7 +28,7 @@ const App: React.FC = () => {
             setUser(userData);
          }
 
-         Auth.onAuthStateChanged(
+         return Auth.onAuthStateChanged(
             (currentUser) => { 
                if (currentUser) {
                   fetchUser(currentUser.uid);
@@ -37,7 +37,7 @@ const App: React.FC = () => {
                   setUser(null);
                }
             }
-         )
+         );
       }, []
    )
    

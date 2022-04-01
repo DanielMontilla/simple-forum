@@ -10,7 +10,7 @@
 .tgl-btn {
    @apply fixed h-10 w-10 bg-primary right-3 bottom-3 rounded-full
           filter drop-shadow-sm
-          flex justify-center items-center
+          flex justify-center items-center z-10
 }
 
 .tgl-icon {

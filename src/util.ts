@@ -1,4 +1,8 @@
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { Auth } from "./firebase.config";
 import { Timestamp } from "firebase/firestore";
+import { createUser } from "./services/Auth";
+import { myUser } from "./types";
 
 export const rand = (min: number = 0, max: number = 1) => Math.random() * (max - min) + min;
 

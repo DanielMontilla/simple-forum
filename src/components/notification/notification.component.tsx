@@ -1,8 +1,9 @@
 import { FC } from "react";
+import { NotificationConfig } from "../../types";
 
 import './notification.style.css';
 
-interface NotificationProps { msgs?: Array<[ msg: string, status?: 'normal' | 'error' | 'succesful' ]> }
+interface NotificationProps { msgs?: NotificationConfig[] }
 
 const Notification: FC<NotificationProps> = ({ msgs }) => {
    return <>
@@ -10,11 +11,15 @@ const Notification: FC<NotificationProps> = ({ msgs }) => {
          msgs ? <div className={`notification-cnt`}>
             {
                msgs.map( (v, i) => <div key={i} 
-                  className={`
-                  ${ v[1] === 'normal' || !v[1] ? 'text-regular' : ''}
-                  ${ v[1] === 'error' ? 'text-error' : ''}
-                  ${ v[1] === 'succesful' ? 'text-succ' : ''}
-                  `}> {v[0]} </div> 
+                  className={`notif
+                  ${ v.status === 'normal' || !v.status ? 'text-regular' : ''}
+                  ${ v.status === 'error' ? 'text-error' : ''}
+                  ${ v.status === 'succesful' ? 'text-succ' : ''}
+                  `}> {
+                     v.status === 'error' ? '❌' :
+                     v.status === 'succesful' ? '✔' :
+                     '🔍'
+                  } {v.msg} </div> 
                )
             }
          </div> :

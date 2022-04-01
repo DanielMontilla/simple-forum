@@ -1,0 +1,8 @@
+.notification-cnt {
+   @apply absolute right-1/4 bottom-4
+          font-semibold flex flex-col gap-1
+}
+
+.notif {
+   @apply bg-normal bg-opacity-10 rounded-sm p-1 pr-2 pl-1
+}

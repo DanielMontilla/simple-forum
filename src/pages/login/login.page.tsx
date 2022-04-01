@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, User } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore"; 
-import fireApp, { Auth, Firestore as fs } from "../../firebase.config";
+import { Auth, Firestore as fs } from "../../firebase.config";
 
 import './login.style.css';
 import { FirebaseError } from "firebase/app";
@@ -10,7 +10,7 @@ import { FirebaseError } from "firebase/app";
 import { CgSpinner } from 'react-icons/cg';
 import { useNavigate } from "react-router-dom";
 import { UserState } from "../app";
-import { fetchImgUrl } from "../../services/Storage";
+import { createUser } from "../../services/Auth";
 
 type Mode = 'login' | 'register'
 interface LoginProps { mode?: Mode };
@@ -53,29 +53,16 @@ const Login: React.FC<LoginProps> = ({ mode: initMode = 'login' }) => {
       setLoading(true);
       let exception = false;
       try {
-
-         let fireUser: User;
          if (mode === 'register') {
-            // TODO: validate username further
-            if (!username || username === '') throw Error('Invalid username');
-            fireUser = (await createUserWithEmailAndPassword(Auth, email, password)).user;
-            await setDoc(
-               doc(fs, 'users', fireUser.uid), 
-               {
-                  uid: fireUser.uid,
-                  username: username,
-                  verified: false,
-                  pic: 1,
-               }
-            );
+            await createUser(email, password, username);
          } else {
-            fireUser = (await signInWithEmailAndPassword(Auth, email, password)).user;
+            await signInWithEmailAndPassword(Auth, email, password);
          }
       } catch (err) {
          exception = true;
          let message: string;
          if (err instanceof FirebaseError) {
-            message = err.code.split(`/`)[1].replaceAll('-', ' ');  
+            message = err.code.split(`/`)[1].replaceAll('-', ' ');
          } else if (err instanceof Error) {
             message = err.message;
          } else {

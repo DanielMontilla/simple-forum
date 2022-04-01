@@ -1,4 +1,6 @@
-import { CollectionReference, DocumentReference, Timestamp } from "firebase/firestore";
+import { CollectionReference, DocumentReference, QueryDocumentSnapshot, Timestamp } from "firebase/firestore";
+
+export type NotificationConfig = { msg: string, status?: 'normal' | 'error' | 'succesful' }
 
 export interface PostData {
    author: DocumentReference<myUser>
@@ -9,8 +11,7 @@ export interface PostData {
    content: string
    media?: string
 
-   likes: number
-   dislikes: number
+   voteCount: number
    commentCount: number
 }
 
@@ -27,7 +28,16 @@ export interface myUser {
    username: string
    verified: boolean
    pic: Pic
-   bio?: string
+   bio: string
+   // To keep track of which posts are liked/disliked
+   // liked?: DocumentReference<PostData>[]
+   // disliked?: DocumentReference<PostData>[]
+}
+
+export type Rating = 'liked' | 'disliked' | 'unvoted';
+
+export interface Vote {
+   rating: Rating;
 }
 
 export type PostRef = DocumentReference<PostData>;
@@ -38,3 +48,5 @@ export type UserColRef = CollectionReference<myUser>;
 
 export type CommentRef = DocumentReference<CommentData>;
 export type CommentColRef = CollectionReference<CommentData>;
+
+export type PostSnap = QueryDocumentSnapshot<PostData>;
