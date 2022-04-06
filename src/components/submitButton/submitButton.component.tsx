@@ -7,6 +7,7 @@ interface ButtonProps {
    label: string
    Icon: IconType
    extra?: string
+   override?: boolean
    load?: boolean
    callback?: () => void
 }
@@ -15,12 +16,13 @@ const SubmitButton: FC<ButtonProps> = ({
       label = "submit",
       Icon,
       extra = '',
+      override = false,
       load = false,
       callback = () => {console.log(`Clicked Submit Button!`)}
    }) => {
    return <div 
       onClick={callback}
-      className={`submit-btn-ctn ${extra}`}
+      className={`${override ? '' : `submit-btn-ctn`} ${extra}`}
    >
       <div className="submit-btn-label"> {label} </div>
       <div className="submit-btn-icon-ctn"> 

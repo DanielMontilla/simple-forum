@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from 'react';
 import { PostRef, PostData, myUser, Rating, Vote } from '../../types';
 import { fetchDoc } from '../../services/Firestore';
 import { UserState } from '../../pages/app';
-import { rate, updateCount } from '../../pages/post/post.util';
+import { getPostDuration, rate, updateVoteCount } from '../../pages/post/post.util';
 
 interface PostCardProps { postRef?: PostRef }
 
@@ -23,7 +23,6 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
 
    useEffect(
       () => {
-
          let fetch = async (ref: PostRef, uid: string) => {
             try {
                let postData = await fetchDoc<PostData>('posts', ref);
@@ -75,7 +74,7 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
 
             setVote(rating)
             await rate(uid, pid, rating)
-            updateCount(pid, p, count)
+            updateVoteCount(pid, p, count)
          } else {
             // TODO: add notification to sign up
          }
@@ -87,7 +86,7 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
    if (post && author && postRef) {
       let { title, content, commentCount } = post;
       let path = postRef.id;
-      let age = '15h';
+      let age = getPostDuration(post.publishDate);
 
       return <div className="postcard">
          <div className="head">

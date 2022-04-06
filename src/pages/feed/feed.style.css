@@ -1,3 +1,6 @@
+.feed {
+   @apply flex flex-row gap-2 flex-wrap flex-grow flex-shrink justify-center content-start w-full
+}
 main {
-   @apply flex flex-row gap-2 flex-wrap flex-grow flex-shrink justify-center content-start
+   @apply flex flex-row gap-2 flex-wrap flex-grow flex-shrink justify-center content-start w-full
 }

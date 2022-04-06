@@ -1,8 +1,19 @@
 .notification-cnt {
-   @apply absolute right-1/4 bottom-4
+   @apply fixed right-1/4 bottom-4 items-center
           font-semibold flex flex-col gap-1
 }
 
 .notif {
-   @apply bg-normal bg-opacity-10 rounded-sm p-1 pr-2 pl-1
+   @apply bg-normal bg-opacity-30 rounded-sm leading-none p-2 pl-1
+}
+
+.notification-fadeout {
+   visibility: hidden;
+   opacity: 0;
+   transition: visibility 0s 1.5s, opacity 1.5s linear;
+}
+
+.notification-visible {
+   visibility: visible;
+   opacity: 100;
 }

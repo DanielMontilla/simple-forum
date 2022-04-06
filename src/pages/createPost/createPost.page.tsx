@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import Notification from "../../components/notification/notification.component";
 import SubmitButton from "../../components/submitButton/submitButton.component";
 import { getRef } from "../../services/Firestore";
-import { myUser, NotificationConfig } from "../../types";
+import { CommentData, myUser, NotificationConfig } from "../../types";
+import { parseTimestamp, rand } from "../../util";
 import { UserState } from "../app";
+import { publishComment } from "../post/post.util";
 import './createPost.style.css'
-import { validateTitle, generateRandomPost, validateContent, publishPost } from "./createPost.util";
+import { validateTitle, generateRandomPost, validateContent, publishPost, publishCustomPost, generateRandomComment } from "./createPost.util";
 
 
 interface CreatePostProps {};
@@ -25,24 +27,42 @@ const CreatePost: FC<CreatePostProps> = () => {
 
    let nav = useNavigate();
 
-   const sumbit = async (u: myUser) => {
+   const submit = async (u: myUser) => {
       // Validating stuff :)
       setLoading(true);
+      setNotifs([]);
 
-      let titleErrors = validateTitle(title);
-      let contentErrors = validateContent(content);
-
-      if (titleErrors.length || contentErrors.length) {
-         setNotifs([...titleErrors, ...contentErrors].map<NotificationConfig>(m => {return {msg: m, status: 'error'}}));
-      } else {
-         console.log('b')
-         try {
-            let ref = await publishPost(u.uid, title, content);
-            setNotifs([{msg: 'Post successfully published! Redirecting...', status:'succesful'}])
-            await new Promise(() => setTimeout(() => nav(`/post/${ref.id}`), 2000))
-         } catch {
-            // TODO: error checking
+      setTimeout(async () => { // Artificially added delay to simulate change and void react component optimizations
+         let titleErrors = validateTitle(title);
+         let contentErrors = validateContent(content);
+   
+         if (titleErrors.length || contentErrors.length) {
+            setNotifs([...titleErrors, ...contentErrors].map<NotificationConfig>(m => {return {msg: m, status: 'error'}}));
+         } else {
+            try {
+               let ref = await publishPost(u.uid, title, content);
+               setNotifs([{msg: 'Post successfully published! Redirecting...', status:'succesful'}])
+               await new Promise(() => setTimeout(() => nav(`/post/${ref.id}`), 2000))
+            } catch {
+               // TODO: error checking
+            }
          }
+
+         setLoading(false);
+      }, 100)
+
+   }
+
+   let temp = async (amount: number) => {
+      setLoading(true);
+
+      for (let i = 0; i < amount; i++) {
+         let post = generateRandomPost();
+        let ref = await publishCustomPost(post);
+        for (let j = 0; j < rand(0, 60); j++) {
+           let comment = generateRandomComment(post.publishDate);
+           await publishComment(ref.id, comment.author.id, comment.content, comment.publishDate)
+        }
       }
 
       setLoading(false);
@@ -67,13 +87,14 @@ const CreatePost: FC<CreatePostProps> = () => {
             onChange={ e => setContent(e.target.value) }
             disabled={loading}
          />
-         <SubmitButton label="Post" callback={ () => sumbit(user as myUser) } load={loading} Icon={MdPostAdd} extra={'mt-1'}/>
+         <SubmitButton label="Post" callback={ () => submit(user as myUser) } load={loading} Icon={MdPostAdd} extra={'mt-1'}/>
+         <SubmitButton label="Mass" callback={ () => temp(50) } load={loading} Icon={MdPostAdd} extra={'mt-1'}/>
          {
-            notifs.length ? <Notification msgs={ notifs }/> : <></>
+            notifs.length ? <Notification msgs={ notifs } delay={3000}/> : <></>
          }
       </form>
    } else {
-      // if user not logged in
+      // TODO: if user not logged in
       return <></>
    }
 }

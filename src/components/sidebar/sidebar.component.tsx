@@ -8,11 +8,12 @@ import { UserState } from "../../pages/app";
 import { BiGridAlt, BiBandAid, BiArrowFromLeft } from 'react-icons/bi';
 import { MdOutlinePostAdd } from 'react-icons/md';
 import { CgProfile } from 'react-icons/cg';
-import { AiFillEdit } from 'react-icons/ai';
+import { AiFillEdit, AiOutlineQuestionCircle } from 'react-icons/ai';
 import { IoLogOut } from 'react-icons/io5';
 import { Auth } from "../../firebase.config";
 import { fetchImgUrl } from "../../services/Storage";
 import { Pic } from "../../types";
+import { BsQuestionCircle } from "react-icons/bs";
 
 interface SidebarProps {
    state: boolean
@@ -28,10 +29,10 @@ interface ItemProps {
 const Sidebar: FC<SidebarProps> = ({ state = false }) => {
    let user = useContext(UserState);
    let nav = useNavigate();
-   let [ active, setActive ] = useState<boolean>(state);
+   let [ active, setActive ] = useState<boolean>(true);
    let [ pic, setPic ] = useState<string | null>(null);
 
-   let toggle = () => setActive(!active);
+   let toggle = () => {/*setActive(!active)*/};
 
    useEffect(
       () => {
@@ -105,6 +106,7 @@ const Sidebar: FC<SidebarProps> = ({ state = false }) => {
             <Item text="feed" icon={ BiGridAlt } path="/feed" onClick={ toggle } />
             <Item text="post" icon={ MdOutlinePostAdd } path="/new-post" onClick={ toggle } />
             <Item text="profile" icon={ CgProfile } onClick={ toggle } />
+            <Item text="about" icon={ AiOutlineQuestionCircle } onClick={ toggle } />
          </ul>
       </nav>
          {/* SETTINGS & MISC */}

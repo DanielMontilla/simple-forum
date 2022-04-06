@@ -48,3 +48,16 @@
 .post-comments {
    @apply mt-2
 }
+
+.post-submit-comment:empty:before {
+   content: attr(placeholder);
+   @apply text-opacity-70 text-normal italic;
+}
+.post-submit-comment {
+   @apply bg-normal bg-opacity-10 outline-none p-1 px-2 rounded-sm
+          text-normal my-1 border-b-2 border-primary break-all;
+}
+
+.post-submit-comment-btn {
+   @apply mt-1
+}

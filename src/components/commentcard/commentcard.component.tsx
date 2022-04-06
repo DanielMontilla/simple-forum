@@ -3,13 +3,15 @@ import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchDoc } from "../../services/Firestore";
 import { fetchImgUrl } from "../../services/Storage";
-import { CommentData, myUser } from "../../types";
+import { CommentData, CommentRef, myUser } from "../../types";
+import { parseTimestamp } from "../../util";
 import './commentcard.style.css';
 
-interface CommentCardProps { data: CommentData };
+interface CommentCardProps { data?: CommentRef };
 
 const CommentCard: FC<CommentCardProps> = ({ data }) => {
-   // null === loading...
+   // undefined === loading...
+   let [ comment, setComment ] = useState<CommentData | undefined>(undefined);
    let [ author, setAuthor ] = useState<myUser | null | 'deleted'>(null);
    let [ authorPic, setAuthorPic ] = useState<string | null>(null);
 
@@ -17,50 +19,51 @@ const CommentCard: FC<CommentCardProps> = ({ data }) => {
 
    useEffect(
       () => {
-         let fetch = async () => {
+         let load = async (ref: CommentRef) => {
+            let commentData = await fetchDoc<CommentData>(ref.parent.path, ref);
+            setComment(commentData);
+            let authorData: myUser | 'deleted';
+            let pic: string = '0';
             try {
-               let guy = await fetchDoc<myUser>('users', data.author);
-               setAuthor(guy);
-               let pic = await fetchImgUrl(`pic_${guy.pic}.png`);
-               setAuthorPic(pic);
+               authorData = await fetchDoc<myUser>('users', commentData.author);
+               pic = `${authorData.pic}`;
             } catch {
-               setAuthor('deleted');
-               setAuthorPic(await fetchImgUrl(`pic_${0}.png`));
+               authorData = 'deleted';
             }
-         };
-
-         let date = data.date.toDate();
-
-         fetch();
+            setAuthor(authorData);
+            pic = await fetchImgUrl(`pic_${pic}.png`);
+            setAuthorPic(pic);
+         }
+         if (data) load(data);
       }, [data]
    );
 
-   return <div className="comment-cnt">
-      <div className="comment-author-header">
-         <div className="comment-author-info">
+   if (comment) {
+   return <div className="commentcard-ctn">
+      <div className="commentcard-data">
+         {
+            authorPic ? <img src={authorPic} alt={'idk'} decoding="auto"
+               className="commentcard-author-pic"
+            /> : <div className="commentcard-author-pic-loading"/>
+         }
+         <div className="commentcard-author-name" onClick={ () => { if (author && author !== 'deleted') nav(`/user/${author.uid}`) } }>
             {
-               authorPic ? 
-                  <img className="comment-author-pic" src={ authorPic } alt={'idk'}/> :
-                  <div className="comment-author-pic-loading"/>
+               author === null ? <div className="commentcard-autho-name-loading"/> :
+               author !== 'deleted' ? author.username : ''
             }
-            <div className="comment-author-name">
-               {
-                  author && author !== 'deleted' ? 
-                     <p onClick={ () => { nav(`/user/${(author as myUser).uid}`) }}>{author.username}</p> :
-                     !author ? 
-                        <div className="comment-author-name-loading"/> :
-                        author
-               }
-            </div>
          </div>
-         <div className="comment-date">
-
+         {` • `}
+         <div className="commentcard-publish-date">
+            { parseTimestamp(comment.publishDate) }
          </div>
       </div>
-      <div className="comment-content">
-         { data.content }
+      <div className="commentcard-content">
+            {comment.content}
       </div>
    </div>
+   } else {
+      return <div className="commentcard-ctn-loading"/>
+   }
 }
 
 export default CommentCard;

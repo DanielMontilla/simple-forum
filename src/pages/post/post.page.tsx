@@ -1,10 +1,10 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchDoc } from "../../services/Firestore";
-import { CommentData, Rating, myUser, PostData, Vote } from "../../types";
-import { MdDateRange } from 'react-icons/md'
+import { CommentData, Rating, myUser, PostData, Vote, CommentRef, CommentSnap, NotificationConfig } from "../../types";
+import { MdDateRange, MdPostAdd } from 'react-icons/md'
 import { ImArrowUp } from 'react-icons/im';
-import { fetchComments, rate, updateCount } from './post.util';
+import { fetchCommentRefs, fetchComments, publishComment, rate, updateCommentCount, updateVoteCount, validateComment } from './post.util';
 
 import './post.style.css'
 import { fetchImgUrl } from "../../services/Storage";
@@ -12,8 +12,15 @@ import CommentCard from "../../components/commentcard/commentcard.component";
 import { parseTimestamp } from "../../util";
 import { CgSpinner } from "react-icons/cg";
 import { UserState } from "../app";
+import ContentEditable from "react-contenteditable";
+import SubmitButton from "../../components/submitButton/submitButton.component";
+import Notification from "../../components/notification/notification.component";
+import { AiOutlineReload } from "react-icons/ai";
 
 interface PostProps { }
+
+const batchSize = 10;
+const commentPlaceholder = 'leave a comment 📃';
 
 const Post: FC<PostProps> = () => {
    let { postId } = useParams<'postId'>();
@@ -21,11 +28,66 @@ const Post: FC<PostProps> = () => {
    let [ voteCount, setVoteCount ] = useState<number | '-'>('-');
    let [ author, setAuthor ] = useState<myUser | null | 'deleted'>(null);
    let [ authorPic, setAuthorPic ] = useState<string | null>(null);
-   let [ comments, setComments ] = useState<CommentData[]>([]);
-   let [ vote, setVote ] = useState<Rating | undefined>();
+   let [ comments, setComments ] = useState<Array<CommentRef | undefined>>([]);
+   let [ lastComment, setLastComment ] = useState<CommentSnap>();
+   let [ vote, setVote ] = useState<Rating>('unvoted');
+   let [ comment, setComment ] = useState<string>('');
+   let [ publishingComment, setPublishingComment ] = useState<boolean>(false);
+   let [ notifs, setNotifs ] = useState<NotificationConfig[]>([]);
+   let [ moreComments, setMoreComments ] = useState<boolean>(true);
    let user = useContext(UserState);
-
    let nav = useNavigate();
+
+   const loadComments = async (first?: boolean) => {
+      setComments(c => [...c, ...new Array(batchSize).fill(undefined)]); // Fill with unloaded comments NOTE: not needed :/
+      let [refs, last] = await fetchCommentRefs(postId as string, batchSize, lastComment); // fetch comment references
+
+      if (first) {
+         setComments(refs);
+      } else {
+         setComments(c => [...c.slice(0, -batchSize), ...refs]); // set new comments
+      }
+
+      if (last) {
+         setLastComment(last); // paginate result=
+      } else {
+         setMoreComments(false);
+      }
+   }
+
+   const submitComment = async () => {
+      setPublishingComment(true);
+      setNotifs([]);
+
+      setTimeout(async () => { // react is doing some insance optimization thats not letting my notification components refresh. added artificial delay
+         if (user === null) {
+            setNotifs([{msg: `please log in to comment`, status: 'error'}]);
+            return;
+         }
+         
+         if (user === 'loading') {
+            setNotifs([{msg: `can't validate user. Try again in a few secods`, status: 'error'}]);
+            return;
+         }
+   
+         let errors = validateComment(comment);
+   
+         if (errors.length) {
+            setNotifs(errors.map<NotificationConfig>(m => {return {msg: m, status: 'error'}}));
+         } else {
+            try {
+               let ref = await publishComment(postId as string, user.uid, comment);
+               setComment('');
+               setNotifs([{msg: 'comments published!', status: 'succesful'}]);
+               setComments(c => [ref, ...c]);
+            } catch {
+               // TODO: error checking
+            }
+         }
+
+         setPublishingComment(false);
+      }, 100)
+   }
 
    useEffect(
       () => {
@@ -35,9 +97,7 @@ const Post: FC<PostProps> = () => {
                try {
                   let v = await fetchDoc<Vote>(`users/${uid}/votes`, postId);
                   setVote(v.rating)
-               } catch (e) { // unvoted
-                  setVote(undefined);
-               }
+               } catch (e) { }
             }
 
             run(user.uid, postId);
@@ -73,6 +133,8 @@ const Post: FC<PostProps> = () => {
                   console.error(`Post could not be fetched.\n${e}`);
                   setPost('not found');
                })
+            
+            loadComments();
          }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,6 +142,9 @@ const Post: FC<PostProps> = () => {
    );
 
    const  handleVote = async (rating: Rating) => {
+
+      // console.log(`Rating is: ${rating}`)
+      // console.log(`Current Vote is: ${vote}`)
 
       let count = 0;
 
@@ -102,7 +167,7 @@ const Post: FC<PostProps> = () => {
 
             setVote(rating)
             await rate(uid, pid, rating)
-            updateCount(pid, p, count)
+            updateVoteCount(pid, p, count)
          } else {
             // TODO: add notification to sign up
          }
@@ -110,11 +175,16 @@ const Post: FC<PostProps> = () => {
          console.log(e)
       }
    }
-
    if (post === 'not found') {
       // TODO: Add styles
-      return <div>
-         Post is either deleted or never existed :(
+      return <div className="flex flex-col gap-4 justify-center items-center place-content-center select-none">
+         <div className="text-4xl font-bold p-7 text-regular text-center">
+            Post is either deleted or never existed :(
+         </div>
+         <div className="text-xl text-center bg-primary text-normal rounded-sm w-auto font-medium leading-none p-2" 
+            onClick={() => nav('/feed') }>
+            take me back
+         </div>
       </div>
    } else if (!post) { // Loading data
       return <CgSpinner className="animate-spin text-normal w-16 h-16 place-self-center"/>
@@ -155,14 +225,39 @@ const Post: FC<PostProps> = () => {
                   className={`post-vote-icon transform rotate-180 ${(vote === 'disliked') ? 'text-primary' : ''}`}/>
             </div>
          </div>
-         <div className="post-leave-comment">
-
-         </div>
+         <ContentEditable
+            className={`post-submit-comment`} html={comment} placeholder={commentPlaceholder}
+            onChange={ e => setComment(e.target.value) }
+         />
+         <SubmitButton label="submit" callback={ () => submitComment() } load={publishingComment} Icon={MdPostAdd} extra={'post-submit-comment-btn'}/>
+         {
+            notifs.length ? <Notification msgs={ notifs } delay={3000}/> : <></>
+         }
          <div className="post-comments">
                {
                   comments.map( (c, i) => <CommentCard data={ c } key={ i }/> )
                }
          </div>
+         {
+            !comments.length ? <div className='
+            text-normal font-semibold place-items-center text-center
+            '>
+               no comments yet :(
+            </div> :
+            moreComments ? <div 
+               className='
+                  h-9 w-36 px-2 pb-1 bg-primary font-semibold text-center leading-none align-middle
+                  flex justify-center items-center rounded-md self-center place-self-center mt-1
+               '
+               onClick={ () => loadComments() }
+               >
+               more comments
+            </div> : <div className='
+               text-normal font-semibold place-items-center text-center
+            '>
+               no more comments :(
+            </div>
+         }
       </div>
    }
 }

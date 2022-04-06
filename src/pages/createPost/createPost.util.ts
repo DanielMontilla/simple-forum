@@ -1,10 +1,9 @@
 import { DocumentReference, Timestamp, addDoc, collection, doc } from "firebase/firestore";
 import { Firestore as fs } from "../../firebase.config";
 import { createDoc, getRef } from "../../services/Firestore";
-import { myUser, PostColRef, PostData, UserRef } from "../../types";
+import { CommentData, myUser, PostColRef, PostData, UserRef } from "../../types";
 import { randInt, randPick } from "../../util";
 import { faker } from '@faker-js/faker';
-import { title } from "process";
 
 export const validateTitle = (title: string): string[] => {
    let msgs: string[] = [];
@@ -30,7 +29,7 @@ export const validateContent = (content: string): string[] => {
       msgs.push(`post must have atleast 15 non-whitespace characters`);
    }
 
-   if (title.length > 500) msgs.push(`post cant be more than 500 characters`)
+   if (content.length > 500) msgs.push(`post cant be more than 500 characters`)
 
    return msgs;
 }
@@ -56,7 +55,12 @@ export const publishPost = async (
    
    let _col = collection(fs, 'posts') as PostColRef;
    return await addDoc(_col, post);
-};
+}
+
+export const publishCustomPost = async (post: PostData) => {
+   let _col = collection(fs, 'posts') as PostColRef;
+   return await addDoc(_col, post);
+}
 
 const UIDS = [
    "0ElW5klDbRUDWFg43mTxUGs4R4w1",
@@ -84,9 +88,21 @@ const UIDS = [
    "zYEkca79n7WK3GSx1osIh0yvDYJ2"
 ];
 
+export const generateRandomComment = (since: Timestamp): CommentData => {
+   let [from, to] = [since.toDate().toUTCString(), new Date(Date.now()).toUTCString()];
+
+   let content = randPick([faker.lorem.paragraph(randInt(1,7)), faker.lorem.words(randInt(3, 13))]);
+
+   return {
+      author: doc(fs, 'users', randPick(UIDS)) as UserRef,
+      content: content,
+      publishDate: Timestamp.fromDate(faker.date.between(from, to))
+   }
+}
+
 export const generateRandomPost = (): PostData => {
    let author = doc(fs, 'users', randPick(UIDS)) as UserRef;
-   let date = Timestamp.fromDate(faker.date.past(3));
+   let date = Timestamp.fromDate(faker.date.past(7));
    let title = faker.lorem.words(randInt(2, 4));
    let content = faker.lorem.paragraph(randInt(1,13));
    let votes = randInt(0, 1000)
