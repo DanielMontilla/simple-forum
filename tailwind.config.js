@@ -12,6 +12,7 @@ module.exports = {
          regular: '#949494',
          alternate: '#0B0C10',
          background: '#1F2833',
+         other: '#20252C',
          error: '#C3423A',
          succ: '#3AC33F',
       },

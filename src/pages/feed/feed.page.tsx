@@ -31,7 +31,7 @@ const Feed: React.FC = () => {
       
    useEffect(
       () => {
-      loadPosts(true);
+      let p = loadPosts(true);
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []
    );
@@ -43,13 +43,14 @@ const Feed: React.FC = () => {
          }
       </div>
       {
+         !posts.length ? <></> :
          morePosts ? <div 
             className='
                h-9 w-36 px-2 pb-1 bg-primary font-semibold text-center leading-none align-middle
                flex justify-center items-center rounded-md self-center place-self-center
             '
             onClick={ () => loadPosts() }
-            >
+         >
             more posts
          </div> : <div className='
             text-normal font-semibold place-items-center text-center

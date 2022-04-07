@@ -30,7 +30,7 @@ export const isUsernameValid = (s: string): [ res: boolean, msgs: string[] ] => 
 export const isBioValid = (s: string): [ res: boolean, msgs: string[] ] => {
    let res = true;
    let msgs = [];
-   if (s.length > 120) { res = false; msgs.push(`bio is ${s.length} characters. Must be less than 120`)};
+   if (s.length > 500) { res = false; msgs.push(`bio is ${s.length} characters. Must be less than 500`)};
    return [res, msgs]
 }
 

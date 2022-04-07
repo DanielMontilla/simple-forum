@@ -1,8 +1,10 @@
 .user-ctn {
    grid-template-rows: 6rem auto auto;
    grid-template-columns: 100%;
-   @apply max-w-xl w-full min-w-min self-start
+   @apply max-w-xl w-full min-w-min self-center
           grid place-content-center select-none
+          bg-regular bg-opacity-10 ring-1 ring-primary rounded-sm
+          p-2
 }
 
 .user-header {
@@ -32,20 +34,20 @@
 }
 
 .user-name-loading {
-   @apply animate-pulse rounded-sm bg-primary bg-opacity-20
+   @apply animate-pulse rounded-full bg-primary bg-opacity-20
           h-11 w-40 transform translate-y-1
 }
 
 .user-bio-area {
-   @apply block px-2 pt-1
+   @apply px-2 pt-1 flex items-center
 }
 
 .user-bio {
-   @apply text-normal text-opacity-90 text-lg outline-none leading-relaxed break-all
+   @apply text-normal text-opacity-90 text-lg outline-none leading-relaxed break-words
 }
 
 .bio-edit-icon {
-   @apply user-name-edit-icon mb-1 ml-1
+   @apply user-name-edit-icon mb-1 ml-1 h-5 w-5 flex-shrink-0
 }
 
 .user-bio-loading {
@@ -89,7 +91,7 @@
 }
 
 .status-msgs {
-   @apply p-2 absolute left-2 bottom-2
+   @apply mt-1
 }
 
 .status-msg {

@@ -1,7 +1,17 @@
 .app {
-   @apply m-0 h-screen
+   @apply m-0 h-full
 }
 
 .ctn {
-   @apply p-1 flex justify-center h-full
+   @apply p-1 flex justify-center h-full lg:pt-4
+}
+
+@media (min-width: 1024px) {
+   .app {
+      display: grid;
+      grid-template-columns: 13rem auto;
+   }
+   .ctn {
+      grid-column: 2/2;
+   }
 }

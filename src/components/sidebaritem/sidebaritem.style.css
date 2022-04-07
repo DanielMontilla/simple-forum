@@ -1,0 +1,13 @@
+.sbi-ctn {
+   @apply flex flex-row h-auto place-items-center py-2 px-3 gap-2
+         bg-normal bg-opacity-5 hover:bg-opacity-10 text-primary
+         border-secundary border-b-2 border-opacity-25 select-none
+}
+
+.sbi-text {
+   @apply align-middle leading-none text-xl font-bold
+}
+
+.sbi-icon {
+   @apply h-9 w-9 fill-current
+}

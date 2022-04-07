@@ -45,6 +45,7 @@ const Login: React.FC<LoginProps> = ({ mode: initMode = 'login' }) => {
             }
             setULoading(false);
          }
+         return () => {}
       }, [userState, navigate]
    );
 

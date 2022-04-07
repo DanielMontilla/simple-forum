@@ -1,5 +1,6 @@
 import { FC, useContext, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
+import { CgSpinner } from "react-icons/cg";
 import { MdPostAdd } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Notification from "../../components/notification/notification.component";
@@ -53,25 +54,25 @@ const CreatePost: FC<CreatePostProps> = () => {
 
    }
 
-   let temp = async (amount: number) => {
-      setLoading(true);
+   // let temp = async (amount: number) => {
+   //    setLoading(true);
 
-      for (let i = 0; i < amount; i++) {
-         let post = generateRandomPost();
-        let ref = await publishCustomPost(post);
-        for (let j = 0; j < rand(0, 60); j++) {
-           let comment = generateRandomComment(post.publishDate);
-           await publishComment(ref.id, comment.author.id, comment.content, comment.publishDate)
-        }
-      }
+   //    for (let i = 0; i < amount; i++) {
+   //       let post = generateRandomPost();
+   //      let ref = await publishCustomPost(post);
+   //      for (let j = 0; j < rand(0, 60); j++) {
+   //         let comment = generateRandomComment(post.publishDate);
+   //         await publishComment(ref.id, comment.author.id, comment.content, comment.publishDate)
+   //      }
+   //    }
 
-      setLoading(false);
-   }
+   //    setLoading(false);
+   // }
 
    if (user === 'loading') {
-      // If user state is loading
-      // TODO: finish
-      return <p className={'text-normal text-xl font-bold'}>LOADING</p>
+      return <div className="flex w-full h-screen justify-center items-center">
+         <CgSpinner className='text-normal font-bold fill-current animate-spin h-24 w-24'/>
+      </div>
    } else if (user) {
       // If user is loaded
       
@@ -88,7 +89,7 @@ const CreatePost: FC<CreatePostProps> = () => {
             disabled={loading}
          />
          <SubmitButton label="Post" callback={ () => submit(user as myUser) } load={loading} Icon={MdPostAdd} extra={'mt-1'}/>
-         <SubmitButton label="Mass" callback={ () => temp(50) } load={loading} Icon={MdPostAdd} extra={'mt-1'}/>
+         {/* <SubmitButton label="Mass" callback={ () => temp(50) } load={loading} Icon={MdPostAdd} extra={'mt-1'}/> */}
          {
             notifs.length ? <Notification msgs={ notifs } delay={3000}/> : <></>
          }

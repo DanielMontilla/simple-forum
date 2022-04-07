@@ -1,7 +1,17 @@
-.sidebar {
-   @apply flex flex-col bg-primary fixed p-1
-          transition-transform transform
-          w-48 h-screen inset-0 select-none z-10
+.sb-ctn {
+   @apply
+      h-screen bg-other z-20
+      fixed w-52 transition-transform transform
+      flex flex-col
+      
+      /* NON-MOBILE */
+      lg:grid-cols-1;
+}
+
+@media (min-width: 1024px) {
+   .sb-ctn {
+      box-shadow: .4rem 0rem .5rem .25px rgba(0, 0, 0, 0.2);
+   }
 }
 
 .sb-active { @apply translate-x-0 }
@@ -10,7 +20,7 @@
 .tgl-btn {
    @apply fixed h-10 w-10 bg-primary right-3 bottom-3 rounded-full
           filter drop-shadow-sm
-          flex justify-center items-center z-10
+          flex justify-center items-center z-20
 }
 
 .tgl-icon {
@@ -21,75 +31,63 @@
 .tgl-active { @apply rotate-180 }
 .tgl-inactive { @apply rotate-0 }
 
-.item {
-   @apply mb-2 p-1 bg-normal rounded-sm bg-opacity-0
+.dimmer {
+   @apply fixed h-full w-full bg-alternate z-10 transition-opacity pointer-events-none
 }
 
-.tag {
-   @apply text-alternate text-xl font-medium inline-block
-          h-full ml-2 leading-none align-middle
+.sb-acct-area {
+   @apply flex flex-col gap-3 justify-start p-3 bg-normal bg-opacity-10 border-secundary border-b-2 border-opacity-25
 }
 
-.icon {
-   @apply inline-block float-left h-8 w-auto
+.sb-acct-top {
+   @apply flex flex-row items-center gap-3 h-10 select-none
 }
 
-.account-area {
-   display: grid;
-   grid-template-columns: 2.25rem;
-   grid-template-rows: 2rem 1.25rem;
-   @apply items-center bg-background bg-opacity-10
-          p-1 rounded-md content-center pb-2
+.sb-user-pic {
+   @apply rounded-full h-10 w-10 ring-1 ring-primary bg-regular flex-shrink-0
 }
 
-.loading {
-   @apply bg-background bg-opacity-20 animate-pulse rounded-full;
+.sb-user-pic-loading {
+   @apply sb-user-pic animate-pulse
 }
 
-.pic {
-   grid-row: span 2 / span 2;
-   grid-column: 1 / 1;
-   @apply w-9 h-9 rounded-full bg-regular
-          ring-2 ring-succ
+.sb-user-name {
+   @apply text-3xl font-bold leading-none align-middle text-secundary flex-grow
 }
 
-.pic-loading {
-   @apply pic loading ring-regular ring-opacity-20
+.sb-user-name-out {
+   @apply text-xl font-bold leading-none align-middle text-normal w-full;
 }
 
-.username {
-   grid-row: 1 / 1;
-   grid-column: 2 / 2;
-   line-height: 0;
-   @apply text-left text-background font-bold text-xl ml-2 align-middle h-8
+.sb-user-name-loading {
+   @apply h-3/5 animate-pulse bg-secundary bg-opacity-10 w-1/2 rounded-full
 }
 
-.username-loading {
-   @apply username;
-   @apply loading w-3/5 h-2/3
+.sb-acct-bot {
+   @apply flex content-center justify-center text-normal h-5 w-full
 }
 
-.user-links {
-   grid-row: 2 / 2;
-   grid-column: 2 / 2;
-   @apply flex flex-row justify-start content-center gap-2
-          text-sm leading-none text-left
+.sb-user-link-loggedin {
+   @apply flex flex-row items-center gap-5
 }
 
-.linktainer {
-   padding: .15rem;
-   @apply ml-2 pl-0
+.sb-user-link-loggedout {
+   @apply sb-user-link-loggedin
 }
 
-.linktainer-loading {
-   @apply linktainer loading;
-   @apply h-2/3 w-3/4
+.sb-user-link-item {
+   @apply flex flex-row items-center gap-2 group select-none cursor-pointer
 }
 
-.user-link {
-   @apply inline font-medium
+.sb-user-icon {
+   @apply h-5 w-5
 }
 
-.user-icons {
- @apply h-full m-0 inline
+.sb-acct-bot-text {
+   @apply align-middle group-hover:underline;
+   transform: translate(0px, -3px);
+}
+
+.sb-user-link-loading {
+ @apply h-3/5 animate-pulse bg-regular w-2/3 rounded-full opacity-10
 }

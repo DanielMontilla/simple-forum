@@ -4,7 +4,7 @@
 }
 
 .notif {
-   @apply bg-normal bg-opacity-30 rounded-sm leading-none p-2 pl-1
+   @apply bg-normal bg-opacity-10 rounded-sm leading-none p-2 pl-1
 }
 
 .notification-fadeout {

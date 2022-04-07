@@ -218,7 +218,17 @@ const User: FC<UserPageProps> = () => {
       </form>
 
    } else if (user === 'not found') { // TODO: create error page
-      return <> not found </>
+      return <div className="mt-10 flex gap-4 items-center flex-col">
+         <p className="text-3xl text-normal font-bold">
+            no user found 
+         </p>
+         <div 
+            className='bg-primary px-1 py-2 text-normal font-semibold text-lg rounded-md text-center flex place-items-center justify-center w-20 h-10'
+            onClick={() => navigate('/feed')}
+         >
+            go back   
+         </div>
+      </div>
    } else { // Still fetching user (loading!)
       return <div className="user-ctn">
          <div className="user-header">
@@ -229,7 +239,7 @@ const User: FC<UserPageProps> = () => {
             <div className={`user-bio-loading`}>
                <div className="bio-loading-text"/>
                <div className="bio-loading-text"/>
-               <div className="bio-loading-text"/>
+               <div className="bio-loading-text mb-4"/>
             </div>
          </div>
          <div className={`socials socials-loading`}/>

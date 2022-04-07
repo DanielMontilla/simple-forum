@@ -3,7 +3,7 @@ import { FaCommentAlt } from 'react-icons/fa';
 import { AiFillClockCircle } from 'react-icons/ai';
 
 import './postcard.style.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 
 // Firebase stuff
@@ -20,6 +20,7 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
    let [ author, setAuthor ] = useState<myUser | undefined | 'deleted'>(undefined);
    let [ vote, setVote ] = useState<Rating>('unvoted');
    let user = useContext(UserState);
+   let nav = useNavigate();
 
    useEffect(
       () => {
@@ -95,7 +96,17 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
                   { title }
                </Link>
             </div>
-            <div className="author"> { author === 'deleted' ? author : author ? author.username : '' } </div>
+            <div className="author"> 
+               { 
+                  author === 'deleted' ? 
+                     author : 
+                     author ? 
+                        <div className='cursor-pointer' onClick={() => nav(`/user/${(author as myUser).uid}`)}> 
+                           { author.username }
+                        </div> : 
+                        '' 
+               } 
+            </div>
          </div>
          <div className="post-preview-context"> { content } </div>
          <div className="actions">
