@@ -62,11 +62,15 @@ const Post: FC<PostProps> = () => {
       setTimeout(async () => { // react is doing some insance optimization thats not letting my notification components refresh. added artificial delay
          if (user === null) {
             setNotifs([{msg: `please log in to comment`, status: 'error'}]);
+            setComment('');
+            setPublishingComment(false);
             return;
          }
          
          if (user === 'loading') {
             setNotifs([{msg: `can't validate user. Try again in a few secods`, status: 'error'}]);
+            setComment('');
+            setPublishingComment(false);
             return;
          }
    
@@ -154,7 +158,6 @@ const Post: FC<PostProps> = () => {
       if (rating === 'disliked' && vote === 'unvoted') count = -1;
       if (rating === 'disliked' && vote === 'disliked') count = 1;
       if (rating === 'disliked' && vote === 'liked') count = -2;
-      setVoteCount(i => i as number + count);
 
       let uid: string | undefined = (user && user !== 'loading') ? user.uid : undefined;
       let pid: string = postId as string;
@@ -167,9 +170,11 @@ const Post: FC<PostProps> = () => {
 
             setVote(rating)
             await rate(uid, pid, rating)
+            setVoteCount(i => i as number + count);
             updateVoteCount(pid, p, count)
          } else {
-            // TODO: add notification to sign up
+            setNotifs([]);
+            setTimeout(() => setNotifs([{msg: 'signin to vote', status: 'error'}]), 100)
          }
       } catch (e) {
          console.log(e)

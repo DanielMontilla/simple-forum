@@ -219,9 +219,9 @@ const User: FC<UserPageProps> = () => {
 
    } else if (user === 'not found') { // TODO: create error page
       return <div className="mt-10 flex gap-4 items-center flex-col">
-         <p className="text-3xl text-normal font-bold">
-            no user found 
-         </p>
+            <p className="text-3xl text-normal font-bold">
+               no user found 
+            </p>
          <div 
             className='bg-primary px-1 py-2 text-normal font-semibold text-lg rounded-md text-center flex place-items-center justify-center w-20 h-10'
             onClick={() => navigate('/feed')}

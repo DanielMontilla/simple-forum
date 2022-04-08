@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { Outlet, Navigate } from 'react-router';
+import { Outlet, Navigate, useParams, useLocation, useNavigate } from 'react-router';
 import './app.css';
 
 // Components
@@ -18,7 +18,9 @@ const UserState = createContext<myUser | null | 'loading'>(null);
 
 const App: React.FC = () => {
    let [ user, setUser ] = useState<myUser | null | 'loading'>('loading'); // Global user state
-   
+   let loc = useLocation();
+   let nav = useNavigate();
+
    useEffect(
       () => {
          let fetchUser = async (uid: string) => {
@@ -27,6 +29,8 @@ const App: React.FC = () => {
             let userData = document.data() as myUser;
             setUser(userData);
          }
+
+         if (loc.pathname === '/') nav('/about');
 
          return Auth.onAuthStateChanged(
             (currentUser) => { 
@@ -38,7 +42,7 @@ const App: React.FC = () => {
                }
             }
          );
-      }, []
+      }, [loc, nav]
    )
    
    return <UserState.Provider value={ user }>

@@ -24,7 +24,7 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
 
    useEffect(
       () => {
-         let fetch = async (ref: PostRef, uid: string) => {
+         let fetch = async (ref: PostRef, u: typeof user) => {
             try {
                let postData = await fetchDoc<PostData>('posts', ref);
                let authorData: myUser | 'deleted';
@@ -35,12 +35,17 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
                   authorData = 'deleted';
                }
 
-               try {
-                  let v = await fetchDoc<Vote>(`users/${uid}/votes`, ref.id);
-                  setVote(v.rating)
-               } catch (e) { // unvoted
+               if (user && user !== 'loading') {
+                  try {
+                     let v = await fetchDoc<Vote>(`users/${user.uid}/votes`, ref.id);
+                     setVote(v.rating)
+                  } catch (e) { // unvoted
+                     setVote('unvoted');
+                  }
+               } else {
                   setVote('unvoted');
                }
+
                
                setAuthor(authorData);
                setPost(postData);
@@ -48,7 +53,8 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
             } catch (e) { console.error(e) } // TODO: better error handeling
          }
 
-         if (user && user !== 'loading' && postRef) fetch(postRef, user.uid);
+         if (postRef) fetch(postRef, user);
+         return () => { /* TODO CLEAN UP CODE */}
       }, [postRef, user]
    );
 
@@ -62,7 +68,6 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
       if (rating === 'disliked' && vote === 'unvoted') count = -1;
       if (rating === 'disliked' && vote === 'disliked') count = 1;
       if (rating === 'disliked' && vote === 'liked') count = -2;
-      setVoteCount(i => i as number + count);
 
       let uid: string | undefined = (user && user !== 'loading') ? user.uid : undefined;
       let pid: string = (postRef as PostRef).id;
@@ -75,6 +80,7 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
 
             setVote(rating)
             await rate(uid, pid, rating)
+            setVoteCount(i => i as number + count);
             updateVoteCount(pid, p, count)
          } else {
             // TODO: add notification to sign up
@@ -91,10 +97,8 @@ const PostCard: React.FC<PostCardProps> = ({ postRef }) => {
 
       return <div className="postcard">
          <div className="head">
-            <div className="title"> 
-               <Link to={`/post/${path}`} key={ title } >
-                  { title }
-               </Link>
+            <div className="title" onClick={() => nav(`/post/${path}`)}> 
+               { title }
             </div>
             <div className="author"> 
                { 

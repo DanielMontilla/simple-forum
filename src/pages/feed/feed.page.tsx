@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { PostRef, PostSnap } from "../../types";
 import { fetchPostRefs } from "./feed.util";
 
-const batchSize = 10;
+const batchSize = 20;
 
 const Feed: React.FC = () => {
    let [ posts, setPosts ] = useState<Array<PostRef | undefined>>([]);
@@ -32,6 +32,7 @@ const Feed: React.FC = () => {
    useEffect(
       () => {
       let p = loadPosts(true);
+      return () => {}
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []
    );

@@ -88,7 +88,7 @@ const Login: React.FC<LoginProps> = ({ mode: initMode = 'login' }) => {
    }
 
    if (uLoading) {
-      return <div className="flex w-screen h-screen justify-center items-center">
+      return <div className="flex h-screen justify-center items-center">
          <CgSpinner className="user-loading"/>
       </div>
    } else {

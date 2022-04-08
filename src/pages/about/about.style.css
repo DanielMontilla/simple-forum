@@ -1,0 +1,24 @@
+.about-t {
+   @apply text-left italic text-normal place-self-start
+         text-xl
+}
+
+.about-p {
+   @apply text-regular mb-4
+}
+
+.about-icon {
+   @apply inline align-middle p-0 h-full mx-1
+}
+
+a {
+   @apply no-underline hover:underline font-medium text-normal
+}
+
+.about-li {
+   @apply text-regular ml-3
+}
+
+.about-si {
+   @apply font-semibold flex justify-center items-center text-base leading-none h-full
+}

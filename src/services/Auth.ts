@@ -2,7 +2,7 @@ import { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword, deleteUser, signOut } from "firebase/auth";
 import { Auth } from "../firebase.config";
 import { myUser, Pic } from "../types";
-import { isBioValid, isUsernameValid } from "../util";
+import { isBioValid, isUsernameValid, randInt, randPick } from "../util";
 import { createDoc } from "./Firestore";
 
 export const createUser = async (
@@ -28,7 +28,7 @@ export const createUser = async (
          uid: uid,
          username: name,
          verified: false,
-         pic: pic || 0,
+         pic: randInt(1,5) as Pic,
          bio: bio || `hello this is ${name}'s bio!`
       }
 

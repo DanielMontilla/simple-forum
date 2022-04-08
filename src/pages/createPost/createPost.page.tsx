@@ -11,7 +11,7 @@ import { parseTimestamp, rand } from "../../util";
 import { UserState } from "../app";
 import { publishComment } from "../post/post.util";
 import './createPost.style.css'
-import { validateTitle, generateRandomPost, validateContent, publishPost, publishCustomPost, generateRandomComment } from "./createPost.util";
+import { validateTitle, generateRandomPost, validateContent, publishPost, publishCustomPost, generateRandomComment, populateUserBios, populateUserPic } from "./createPost.util";
 
 
 interface CreatePostProps {};
@@ -54,20 +54,20 @@ const CreatePost: FC<CreatePostProps> = () => {
 
    }
 
-   // let temp = async (amount: number) => {
-   //    setLoading(true);
+   let temp = async (amount: number) => {
+      setLoading(true);
 
-   //    for (let i = 0; i < amount; i++) {
-   //       let post = generateRandomPost();
-   //      let ref = await publishCustomPost(post);
-   //      for (let j = 0; j < rand(0, 60); j++) {
-   //         let comment = generateRandomComment(post.publishDate);
-   //         await publishComment(ref.id, comment.author.id, comment.content, comment.publishDate)
-   //      }
-   //    }
+      for (let i = 0; i < amount; i++) {
+         let post = generateRandomPost();
+        let ref = await publishCustomPost(post);
+        for (let j = 0; j < rand(0, 60); j++) {
+           let comment = generateRandomComment(post.publishDate);
+           await publishComment(ref.id, comment.author.id, comment.content, comment.publishDate)
+        }
+      }
 
-   //    setLoading(false);
-   // }
+      setLoading(false);
+   }
 
    if (user === 'loading') {
       return <div className="flex w-full h-screen justify-center items-center">
@@ -89,14 +89,23 @@ const CreatePost: FC<CreatePostProps> = () => {
             disabled={loading}
          />
          <SubmitButton label="Post" callback={ () => submit(user as myUser) } load={loading} Icon={MdPostAdd} extra={'mt-1'}/>
-         {/* <SubmitButton label="Mass" callback={ () => temp(50) } load={loading} Icon={MdPostAdd} extra={'mt-1'}/> */}
+         {/* <SubmitButton label="Mass" callback={ () => populateUserPic() } load={loading} Icon={MdPostAdd} extra={'mt-1'}/> */}
          {
             notifs.length ? <Notification msgs={ notifs } delay={3000}/> : <></>
          }
       </form>
    } else {
-      // TODO: if user not logged in
-      return <></>
+      return <div className="mt-10 flex gap-4 items-center flex-col">
+            <p className="text-2xl text-normal font-bold lg:text-3xl text-center">
+               Please sign into an account to create a post
+            </p>
+         <div 
+            className='bg-primary px-1 py-2 text-normal font-semibold text-lg rounded-md text-center flex place-items-center justify-center w-20 h-10'
+            onClick={() => nav('/login')}
+         >
+            account 
+         </div>
+   </div>
    }
 }
 

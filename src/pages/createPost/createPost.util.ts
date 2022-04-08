@@ -1,7 +1,7 @@
 import { DocumentReference, Timestamp, addDoc, collection, doc } from "firebase/firestore";
 import { Firestore as fs } from "../../firebase.config";
-import { createDoc, getRef } from "../../services/Firestore";
-import { CommentData, myUser, PostColRef, PostData, UserRef } from "../../types";
+import { createDoc, fetchDoc, getRef } from "../../services/Firestore";
+import { CommentData, myUser, Pic, PostColRef, PostData, UserRef } from "../../types";
 import { randInt, randPick } from "../../util";
 import { faker } from '@faker-js/faker';
 
@@ -98,6 +98,22 @@ export const generateRandomComment = (since: Timestamp): CommentData => {
       content: content,
       publishDate: Timestamp.fromDate(faker.date.between(from, to))
    }
+}
+
+export const populateUserBios = async () => {
+   UIDS.forEach(async uid => {
+      let user = await fetchDoc<myUser>('users', uid);
+      user.bio += '\n' + faker.lorem.words(randInt(7, 40));
+      await createDoc('users', user, uid);
+   })
+}
+
+export const populateUserPic = async () => {
+   UIDS.forEach(async uid => {
+      let user = await fetchDoc<myUser>('users', uid);
+      user.pic = randInt(1,5) as Pic;
+      await createDoc('users', user, uid);
+   })
 }
 
 export const generateRandomPost = (): PostData => {

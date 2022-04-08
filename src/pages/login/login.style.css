@@ -1,5 +1,5 @@
 .login-ctn {
-   @apply flex justify-center flex-col h-screen select-none items-center
+   @apply flex justify-center flex-col select-none items-center mt-40 lg:mt-56
 }
 
 .form-ctn {
@@ -48,5 +48,5 @@ input {
 }
 
 .user-loading {
-   @apply h-3/4 w-3/4 text-regular animate-spin stroke-current
+   @apply h-24 w-24 text-regular animate-spin stroke-current
 }
