@@ -1,6 +1,5 @@
 .sb-ctn {
-   @apply
-      h-screen bg-other z-20
+   @apply h-screen bg-other z-20
       fixed w-52 transition-transform transform
       flex flex-col
       
@@ -10,49 +9,57 @@
 
 @media (min-width: 1024px) {
    .sb-ctn {
-      box-shadow: .4rem 0rem .5rem .25px rgba(0, 0, 0, 0.2);
+      box-shadow: 0.4rem 0rem 0.5rem 0.25px rgba(0, 0, 0, 0.2);
    }
 }
 
-.sb-active { @apply translate-x-0 }
-.sb-inactive { @apply -translate-x-full }
+.sb-active {
+   @apply translate-x-0;
+}
+.sb-inactive {
+   @apply -translate-x-full;
+}
 
 .tgl-btn {
    @apply fixed h-10 w-10 bg-primary right-3 bottom-3 rounded-full
           filter drop-shadow-sm
-          flex justify-center items-center z-20
+          flex justify-center items-center z-20;
 }
 
 .tgl-icon {
    @apply text-background fill-current w-1/2 h-1/2
-          transition-transform transform
+          transition-transform transform;
 }
 
-.tgl-active { @apply rotate-180 }
-.tgl-inactive { @apply rotate-0 }
+.tgl-active {
+   @apply rotate-180;
+}
+.tgl-inactive {
+   @apply rotate-0;
+}
 
 .dimmer {
-   @apply fixed h-full w-full bg-alternate z-10 transition-opacity pointer-events-none
+   @apply fixed h-full w-full bg-alternate z-10 transition-opacity pointer-events-none;
 }
 
 .sb-acct-area {
-   @apply flex flex-col gap-3 justify-start p-3 bg-normal bg-opacity-10 border-secundary border-b-2 border-opacity-25
+   @apply flex flex-col gap-3 justify-start p-3 bg-normal bg-opacity-10 border-secundary border-b-2 border-opacity-25;
 }
 
 .sb-acct-top {
-   @apply flex flex-row items-center gap-3 h-10 select-none
+   @apply flex flex-row items-center gap-3 h-10 select-none;
 }
 
 .sb-user-pic {
-   @apply rounded-full h-10 w-10 ring-1 ring-primary bg-regular flex-shrink-0
+   @apply rounded-full h-10 w-10 ring-1 ring-primary bg-regular flex-shrink-0;
 }
 
 .sb-user-pic-loading {
-   @apply sb-user-pic animate-pulse
+   @apply sb-user-pic animate-pulse;
 }
 
 .sb-user-name {
-   @apply text-3xl font-bold leading-none align-middle text-secundary flex-grow
+   @apply text-3xl font-bold leading-none align-middle text-secundary flex-grow;
 }
 
 .sb-user-name-out {
@@ -60,27 +67,27 @@
 }
 
 .sb-user-name-loading {
-   @apply h-3/5 animate-pulse bg-secundary bg-opacity-10 w-1/2 rounded-full
+   @apply h-3/5 animate-pulse bg-secundary bg-opacity-10 w-1/2 rounded-full;
 }
 
 .sb-acct-bot {
-   @apply flex content-center justify-center text-normal h-5 w-full
+   @apply flex content-center justify-center text-normal h-5 w-full;
 }
 
 .sb-user-link-loggedin {
-   @apply flex flex-row items-center gap-5
+   @apply flex flex-row items-center gap-5;
 }
 
 .sb-user-link-loggedout {
-   @apply sb-user-link-loggedin
+   @apply sb-user-link-loggedin;
 }
 
 .sb-user-link-item {
-   @apply flex flex-row items-center gap-2 group select-none cursor-pointer
+   @apply flex flex-row items-center gap-2 group select-none cursor-pointer;
 }
 
 .sb-user-icon {
-   @apply h-5 w-5
+   @apply h-5 w-5;
 }
 
 .sb-acct-bot-text {
@@ -89,5 +96,5 @@
 }
 
 .sb-user-link-loading {
- @apply h-3/5 animate-pulse bg-regular w-2/3 rounded-full opacity-10
+   @apply h-3/5 animate-pulse bg-regular w-2/3 rounded-full opacity-10;
 }

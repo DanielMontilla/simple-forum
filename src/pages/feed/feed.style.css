@@ -1,6 +1,11 @@
 .feed {
-   @apply flex flex-row gap-2 flex-wrap flex-grow flex-shrink justify-center content-start w-full
+   @apply flex gap-2 flex-row flex-wrap flex-grow flex-shrink justify-center content-start w-full;
 }
+
+/* @supports not (gap: 1em) {
+
+} */
+
 main {
-   @apply flex flex-row gap-2 flex-wrap flex-grow flex-shrink justify-center content-start w-full
+   @apply flex flex-row flex-wrap flex-grow flex-shrink justify-center content-start w-full;
 }

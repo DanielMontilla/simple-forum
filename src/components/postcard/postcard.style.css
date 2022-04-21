@@ -1,7 +1,13 @@
 .postcard {
-   @apply p-2 pt-1 max-w-xs h-40 w-full
+   @apply p-2 pt-1 max-w-xs h-40 w-full select-none
           flex flex-col flex-shrink-0 content-start
           bg-alternate bg-opacity-30 rounded-sm overflow-hidden;
+}
+
+@supports (-webkit-touch-callout: none) and (not (translate: none)) {
+   .postcard {
+      @apply border-b-2 border-secundary;
+   }
 }
 
 .postcard-load {
@@ -16,7 +22,7 @@
 
 .title {
    @apply text-left text-primary text-3xl font-bold
-          inline-block leading-none cursor-pointer
+          inline-block leading-none cursor-pointer;
 }
 
 .author {
@@ -30,7 +36,7 @@
 }
 
 .actions {
-   @apply flex flex-grow justify-self-end justify-around items-end
+   @apply flex flex-grow justify-self-end justify-around items-end;
 }
 
 .votes {
@@ -41,11 +47,15 @@
    @apply transform fill-current stroke-current cursor-pointer;
 }
 
-.vote-up { @apply rotate-0 }
-.vote-down { @apply rotate-180 }
+.vote-up {
+   @apply rotate-0;
+}
+.vote-down {
+   @apply rotate-180;
+}
 
 .vote-count {
-   @apply text-regular font-semibold text-sm leading-tight
+   @apply text-regular font-semibold text-sm leading-tight;
 }
 
 .comments {
@@ -53,21 +63,21 @@
 }
 
 .comment-icon {
-   @apply h-full text-normal fill-current stroke-current
+   @apply h-full text-normal fill-current stroke-current;
 }
 
 .comment-count {
-   @apply text-regular font-semibold text-sm
+   @apply text-regular font-semibold text-sm;
 }
 
 .age {
-   @apply flex justify-around items-center space-x-2 w-1/6
+   @apply flex justify-around items-center space-x-2 w-1/6;
 }
 
 .age-icon {
-   @apply h-full text-normal fill-current stroke-current
+   @apply h-full text-normal fill-current stroke-current;
 }
 
 .age-count {
-   @apply text-regular font-semibold text-sm
+   @apply text-regular font-semibold text-sm;
 }

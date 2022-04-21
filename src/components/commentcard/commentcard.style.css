@@ -1,38 +1,37 @@
 .commentcard-ctn {
    @apply flex flex-col 
          bg-normal bg-opacity-5
-          p-2 gap-1 border-2 border-secundary border-opacity-20 rounded-sm my-1
+          p-2 gap-1 border-2 border-secundary border-opacity-20 rounded-sm my-1;
 }
 
 .commentcard-ctn-loading {
-   @apply commentcard-ctn animate-pulse h-20
+   @apply commentcard-ctn animate-pulse h-20;
 }
 
 .commentcard-author-pic {
-   @apply h-6 w-6 rounded-full ring-1
+   @apply h-6 w-6 rounded-full ring-1 cursor-pointer;
 }
 
 .commentcard-author-pic-loading {
-   @apply commentcard-author-pic bg-normal animate-pulse bg-opacity-25
+   @apply commentcard-author-pic bg-normal animate-pulse bg-opacity-25;
 }
 
 .commentcard-data {
-   @apply flex content-center h-6 gap-2 items-center text-normal
+   @apply flex content-center h-6 gap-2 items-center text-normal;
 }
 
 .commentcard-author-name {
-   @apply text-lg font-semibold leading-none
+   @apply text-lg font-semibold leading-none cursor-pointer;
 }
 
 .commentcard-autho-name-loading {
-   @apply h-4 rounded-md bg-normal bg-opacity-5 animate-pulse w-20
+   @apply h-4 rounded-md bg-normal bg-opacity-5 animate-pulse w-20;
 }
 
 .commentcard-publish-date {
-   @apply text-sm text-regular leading-none
+   @apply text-sm text-regular leading-none;
 }
 
 .commentcard-content {
-   @apply text-normal
+   @apply text-normal;
 }
-
